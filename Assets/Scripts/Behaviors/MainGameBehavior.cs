@@ -11,7 +11,19 @@ namespace TamaCovid
         // TODO: Separate functionality of each state into separate classes,
         // something like a "Sequence" class.
 
+        /// <summary>
+        /// Reference to the text box.
+        /// </summary>
         public TextBoxBehavior textBox;
+
+        /// <summary>
+        /// Game state data.
+        /// </summary>
+        public GameState GameState
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// States within the gameplay loop
@@ -35,6 +47,15 @@ namespace TamaCovid
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// when the game object is created.
+        /// </summary>
+        private void Awake()
+        {
+            GameState = new GameState();
         }
 
         /// <summary>
