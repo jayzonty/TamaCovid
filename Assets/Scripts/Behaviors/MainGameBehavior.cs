@@ -26,6 +26,11 @@ namespace TamaCovid
         }
 
         /// <summary>
+        /// Test dialogue. (TEMPORARY)
+        /// </summary>
+        public Dialogue testIntroDialogue;
+
+        /// <summary>
         /// States within the gameplay loop
         /// </summary>
         public enum State
@@ -50,12 +55,28 @@ namespace TamaCovid
         }
 
         /// <summary>
+        /// Reference to the dialogue system.
+        /// </summary>
+        private DialogueSystemBehavior dialogueSystem;
+
+        /// <summary>
         /// Unity callback function that is called
         /// when the game object is created.
         /// </summary>
         private void Awake()
         {
             GameState = new GameState();
+
+            dialogueSystem = GameObject.FindObjectOfType<DialogueSystemBehavior>();
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// before the first update call.
+        /// </summary>
+        private void Start()
+        {
+            dialogueSystem.ShowDialogue(testIntroDialogue);
         }
 
         /// <summary>
@@ -68,9 +89,14 @@ namespace TamaCovid
             {
                 case State.Intro:
 
-                    // For now, just jump to wake up sequence, and set the text about waking up
-                    textBox.SetText("You woke up at 8AM.");
-                    CurrentState = State.WakeUpSequence;
+                    if (dialogueSystem.IsDialogueFinished)
+                    {
+                        dialogueSystem.ShowDialogue(null);
+
+                        // For now, just jump to wake up sequence, and set the text about waking up
+                        textBox.SetText("You woke up at 8AM.");
+                        CurrentState = State.WakeUpSequence;
+                    }
 
                     break;
 
