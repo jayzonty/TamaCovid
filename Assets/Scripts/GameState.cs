@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace TamaCovid
 {
     /// <summary>
@@ -30,5 +31,52 @@ namespace TamaCovid
         public int anxiety = 0;
 
         #endregion
+
+        /// <summary>
+        /// Game flags
+        /// </summary>
+        private HashSet<string> flags = new HashSet<string>();
+
+        /// <summary>
+        /// Sets the value for the given flag to true
+        /// </summary>
+        /// <param name="flagName">Flag that will be set to true</param>
+        public void SetFlag(string flagName)
+        {
+            flags.Add(flagName);
+        }
+
+        /// <summary>
+        /// Sets the value for the given flags to true
+        /// </summary>
+        /// <param name="flagNames">Flags that will be set to true</param>
+        public void SetFlags(params string[] flagNames)
+        {
+            foreach (string flagName in flagNames)
+            {
+                SetFlag(flagName);
+            }
+        }
+
+        /// <summary>
+        /// Sets the value for the given flag to false
+        /// </summary>
+        /// <param name="flagName">Flag that will be set to false</param>
+        public void UnsetFlag(string flagNames)
+        {
+            flags.Remove(flagNames);
+        }
+
+        /// <summary>
+        /// Sets the value for the given flags to false
+        /// </summary>
+        /// <param name="flagNames">Flags that will be set to false</param>
+        public void UnsetFlags(params string[] flagNames)
+        {
+            foreach (string flagName in flagNames)
+            {
+                UnsetFlag(flagName);
+            }
+        }
     }
 }
