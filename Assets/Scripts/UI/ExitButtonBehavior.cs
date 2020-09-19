@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 
 namespace TamaCovid
@@ -47,8 +48,14 @@ namespace TamaCovid
         /// </summary>
         private void ExitGame()
         {
+            // Quitting from the editor is different
+            // from quitting the application (when deployed)
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
             // Exit the game.
             Application.Quit();
+#endif
         }
     }
 }
