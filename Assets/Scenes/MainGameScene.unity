@@ -808,6 +808,19 @@ MonoBehaviour:
     - message: Looks good to me!
       commandsString: 
       conditionsString: 
+    - message: Here, let me give you some monies. Have fun!
+      commandsString: money+100; money+500
+      conditionsString: 
+    - message: I'll have to make you more hungry though...
+      commandsString: hunger+10
+      conditionsString: 
+    - message: And I need to borrow some money from you...
+      commandsString: money-200
+      conditionsString: 
+    - message: Okay bye!
+      commandsString: 
+      conditionsString: 
+    conditionsString: 
 --- !u!4 &1337986159
 Transform:
   m_ObjectHideFlags: 0

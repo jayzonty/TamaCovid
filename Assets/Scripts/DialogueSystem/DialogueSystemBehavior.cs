@@ -154,8 +154,12 @@ namespace TamaCovid
         }
 
         /// <summary>
-        /// Parse the commands laid out in the provided string
+        /// Parse the commands laid out in the provided string.
         /// </summary>
+        /// <remarks>
+        /// For now, commands affect just the game state, but should
+        /// be changed in the future if we want it to be more flexible.
+        /// </remarks>
         /// <param name="commandsString"></param>
         private void ParseCommands(string commandsString)
         {
@@ -166,23 +170,85 @@ namespace TamaCovid
 
             // TODO: Might want to consider doing regex instead.
             // TODO: Implement the commands
-            // For now, split based on white space.
+            // For now, split based on semi-colon.
             // StringSplitOptions.RemoveEmptyEntries is to account for multiple white spaces between commands.
-            string[] commands = commandsString.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] commands = commandsString.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string command in commands)
             {
-                if (command.StartsWith("@stat"))
+                if (!string.IsNullOrEmpty(command))
                 {
-                    // Modify stat command (examples: @stat:money+5, @stat:hunger-3, @stat:anxiety=10)
-                }
-                else if (command.StartsWith("@setFlag"))
-                {
-                    // Set flag command
-                }
-                else if (command.StartsWith("@unsetFlag"))
-                {
-                    // Unset flag command
+                    if (command.StartsWith("_"))
+                    {
+                        // Special commands to be added in the future
+                    }
+                    else
+                    {
+                        // We're expecting a = b, a + b, or a - b
+                        char op = '=';
+                        if (command.Contains("+"))
+                        {
+                            op = '+';
+                        }
+                        else if (command.Contains("-"))
+                        {
+                            op = '-';
+                        }
+
+                        string[] tokens = command.Split(op);
+                        if (tokens.Length == 2) // If it's one of the 3 formats above, we expect to get both a and b
+                        {
+                            string a = tokens[0].Trim();
+                            string b = tokens[1].Trim();
+
+                            // TODO: Refactor this to something more flexible,
+                            // like get a reference to the variable from the name,
+                            // and set the value accordingly, something like
+                            // gameState.stats["money"] = value
+
+                            if (a.StartsWith("@")) // Flag
+                            {
+                                bool flagVal = false;
+                                if (bool.TryParse(b, out flagVal))
+                                {
+                                    if (flagVal)
+                                    {
+                                        gameState.SetFlag(a);
+                                    }
+                                    else
+                                    {
+                                        gameState.UnsetFlag(a);
+                                    }
+                                }
+                            }
+                            else // Stat
+                            {
+                                int intVal = 0;
+                                int.TryParse(b, out intVal);
+
+                                if (a == "money")
+                                {
+                                    if (op == '=') { gameState.money = intVal; }
+                                    else if (op == '+') { gameState.money += intVal; }
+                                    else { gameState.money -= intVal; }
+                                }
+                                else if (a == "hunger")
+                                {
+                                    if (op == '=') { gameState.hunger = intVal; }
+                                    else if (op == '+') { gameState.hunger += intVal; }
+                                    else { gameState.hunger -= intVal; }
+                                    gameState.hunger = Mathf.Max(gameState.hunger, 0); // Make sure hunger doesn't go less than 0
+                                }
+                                else if (a == "anxiety")
+                                {
+                                    if (op == '=') { gameState.anxiety = intVal; }
+                                    else if (op == '+') { gameState.anxiety += intVal; }
+                                    else { gameState.anxiety -= intVal; }
+                                    gameState.anxiety = Mathf.Max(gameState.anxiety, 0); // Make sure anxiety doesn't go less than 0
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
