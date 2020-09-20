@@ -15,14 +15,19 @@ namespace TamaCovid
         public Text moneyText;
 
         /// <summary>
+        /// Text display for the energy
+        /// </summary>
+        public Text energyText;
+
+        /// <summary>
+        /// Text display for the food
+        /// </summary>
+        public Text foodText;
+
+        /// <summary>
         /// Text display for the hunger
         /// </summary>
         public Text hungerText;
-
-        /// <summary>
-        /// Text display for the happiness
-        /// </summary>
-        public Text happinessText;
 
         /// <summary>
         /// Text display for the anxiety level
@@ -58,14 +63,19 @@ namespace TamaCovid
                 moneyText.text = "Money: " + gameState.money;
             }
 
+            if (energyText != null)
+            {
+                energyText.text = "Energy: " + gameState.energy;
+            }
+
+            if (foodText != null)
+            {
+                foodText.text = "Food: " + gameState.food;
+            }
+
             if (hungerText != null)
             {
                 hungerText.text = "Hunger: " + gameState.hunger;
-            }
-
-            if (happinessText != null)
-            {
-                happinessText.text = "Happiness: " + gameState.happiness;
             }
 
             if (anxietyText != null)

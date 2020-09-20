@@ -211,14 +211,7 @@ namespace TamaCovid
                                 bool flagVal = false;
                                 if (bool.TryParse(b, out flagVal))
                                 {
-                                    if (flagVal)
-                                    {
-                                        gameState.SetFlag(a);
-                                    }
-                                    else
-                                    {
-                                        gameState.UnsetFlag(a);
-                                    }
+                                    gameState.SetFlagValue(a, flagVal);
                                 }
                             }
                             else // Stat
@@ -231,6 +224,20 @@ namespace TamaCovid
                                     if (op == '=') { gameState.money = intVal; }
                                     else if (op == '+') { gameState.money += intVal; }
                                     else { gameState.money -= intVal; }
+                                }
+                                else if (a == "energy")
+                                {
+                                    if (op == '=') { gameState.energy = intVal; }
+                                    else if (op == '+') { gameState.energy += intVal; }
+                                    else { gameState.energy -= intVal; }
+                                    gameState.energy = Mathf.Max(gameState.energy, 0); // Make sure energy doesn't go less than 0
+                                }
+                                else if (a == "food")
+                                {
+                                    if (op == '=') { gameState.food = intVal; }
+                                    else if (op == '+') { gameState.food += intVal; }
+                                    else { gameState.food -= intVal; }
+                                    gameState.food = Mathf.Max(gameState.food, 0); // Make sure food doesn't go less than 0
                                 }
                                 else if (a == "hunger")
                                 {
@@ -245,6 +252,13 @@ namespace TamaCovid
                                     else if (op == '+') { gameState.anxiety += intVal; }
                                     else { gameState.anxiety -= intVal; }
                                     gameState.anxiety = Mathf.Max(gameState.anxiety, 0); // Make sure anxiety doesn't go less than 0
+                                }
+                                else if (a == "numInfected")
+                                {
+                                    if (op == '=') { gameState.numInfected = intVal; }
+                                    else if (op == '+') { gameState.numInfected += intVal; }
+                                    else { gameState.numInfected -= intVal; }
+                                    gameState.numInfected = Mathf.Max(gameState.numInfected, 0); // Make sure number of infected doesn't go less than 0
                                 }
                             }
                         }
