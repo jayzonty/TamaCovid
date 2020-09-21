@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace TamaCovid
 {
@@ -22,7 +24,9 @@ namespace TamaCovid
         // TODO: Add data regarding conditions for
         // allowing the action to be performed.
 
-        // TODO: Add data for dialogue lines and triggers
-        // to change the game state, or to set/unset flags, etc.
+        /// <summary>
+        /// List of dialogue lines for this particular action
+        /// </summary>
+        public List<Dialogue> dialogues;
     }
 }
