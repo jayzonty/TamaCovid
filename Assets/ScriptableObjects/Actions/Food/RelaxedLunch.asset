@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b5f303c611d74b91b8d8aca4d3970, type: 3}
+  m_Name: RelaxedLunch
+  m_EditorClassIdentifier: 
+  category: Food
+  displayName: Lunch (Relaxed)
+  description: A relaxed lunch.
+  dialogues:
+  - lines:
+    - message: You ate lunch...
+      commandsString: 
+      conditionsString: 
+    - message: You gained some energy and lost some hunger!
+      commandsString: energy+5; hunger-5
+      conditionsString: 
+    conditionsString: 
