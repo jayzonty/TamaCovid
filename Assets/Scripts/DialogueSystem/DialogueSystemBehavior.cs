@@ -178,7 +178,7 @@ namespace TamaCovid
             {
                 if (!string.IsNullOrEmpty(command))
                 {
-                    if (command.StartsWith("_"))
+                    if (command.StartsWith("@"))
                     {
                         // Special commands to be added in the future
                     }
@@ -206,7 +206,7 @@ namespace TamaCovid
                             // and set the value accordingly, something like
                             // gameState.stats["money"] = value
 
-                            if (a.StartsWith("@")) // Flag
+                            if (a.StartsWith("#")) // Flag
                             {
                                 bool flagVal = false;
                                 if (bool.TryParse(b, out flagVal))
