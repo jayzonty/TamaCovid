@@ -17,6 +17,11 @@ namespace TamaCovid
         public string category;
 
         /// <summary>
+        /// Display name of the action.
+        /// </summary>
+        public string displayName;
+
+        /// <summary>
         /// Description of the action
         /// </summary>
         public string description;
