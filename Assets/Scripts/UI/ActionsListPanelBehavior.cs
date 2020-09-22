@@ -37,29 +37,6 @@ namespace TamaCovid
         public Transform actionItemsPanelTransform;
 
         /// <summary>
-        /// Refresh the display for the list of action items
-        /// </summary>
-        public void RefreshActionItems()
-        {
-            if (actionItemsPanelTransform != null)
-            {
-                // For now, just destroy all the children of the action
-                // items list, then reconstruct them with the provided prefab.
-                int childCount = actionItemsPanelTransform.childCount;
-                for (int i = 0; i < childCount; ++i)
-                {
-                    Transform childTransform = actionItemsPanelTransform.GetChild(i);
-                    Destroy(childTransform.gameObject);
-                }
-
-                for (int i = 0; i < actionList.Count; ++i)
-                {
-
-                }
-            }
-        }
-
-        /// <summary>
         /// Unity callback function that is called
         /// before the first update call.
         /// </summary>
