@@ -60,27 +60,27 @@ namespace TamaCovid
         {
             if (moneyText != null)
             {
-                moneyText.text = "Money: " + gameState.money;
+                moneyText.text = "Money: " + gameState.GetStatValue(Constants.MONEY_STAT_NAME);
             }
 
             if (energyText != null)
             {
-                energyText.text = "Energy: " + gameState.energy;
+                energyText.text = "Energy: " + gameState.GetStatValue(Constants.ENERGY_STAT_NAME);
             }
 
             if (foodText != null)
             {
-                foodText.text = "Food: " + gameState.food;
+                foodText.text = "Food: " + gameState.GetStatValue(Constants.FOOD_STAT_NAME);
             }
 
             if (hungerText != null)
             {
-                hungerText.text = "Hunger: " + gameState.hunger;
+                hungerText.text = "Hunger: " + gameState.GetStatValue(Constants.HUNGER_STAT_NAME);
             }
 
             if (anxietyText != null)
             {
-                anxietyText.text = "Anxiety: " + gameState.anxiety;
+                anxietyText.text = "Anxiety: " + gameState.GetStatValue(Constants.ANXIETY_STAT_NAME);
             }
         }
     }

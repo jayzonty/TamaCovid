@@ -67,6 +67,12 @@ namespace TamaCovid
         {
             GameState = new GameState();
 
+            GameState.AddStat(Constants.MONEY_STAT_NAME);
+            GameState.AddStat(Constants.ENERGY_STAT_NAME);
+            GameState.AddStat(Constants.FOOD_STAT_NAME);
+            GameState.AddStat(Constants.HUNGER_STAT_NAME);
+            GameState.AddStat(Constants.ANXIETY_STAT_NAME);
+
             dialogueSystem = GameObject.FindObjectOfType<DialogueSystemBehavior>();
         }
 

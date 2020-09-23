@@ -10,36 +10,6 @@ namespace TamaCovid
     {
         #region Daily Stats
 
-        /// <summary>
-        /// Player's money.
-        /// </summary>
-        public int money = 0;
-
-        /// <summary>
-        /// Player's energy value.
-        /// </summary>
-        public int energy = 0;
-
-        /// <summary>
-        /// Amount of food the player has.
-        /// </summary>
-        public int food = 0;
-
-        /// <summary>
-        /// Player's hunger value.
-        /// </summary>
-        public int hunger = 0;
-        
-        /// <summary>
-        /// Player's anxiety level.
-        /// </summary>
-        public int anxiety = 0;
-
-        /// <summary>
-        /// Number of people the player has infected.
-        /// </summary>
-        public int numInfected = 0;
-
         /**
          * ===== Flag Macros =====
          * TODO: For now, the flag names are hard-coded.
@@ -131,10 +101,93 @@ namespace TamaCovid
         #endregion
 
         /// <summary>
+        /// Dictionary mapping a stat to its value via its name.
+        /// </summary>
+        private Dictionary<string, int> statValues = new Dictionary<string, int>();
+
+        /// <summary>
         /// Game flags
         /// </summary>
         private HashSet<string> flags = new HashSet<string>();
 
+        /// <summary>
+        /// Add a stat to the list of stats that we are keeping track of.
+        /// </summary>
+        /// <param name="statName">Name of the stat that will be added.</param>
+        /// <param name="initialValue">Initial value of the stat</param>
+        public void AddStat(string statName, int initialValue = 0)
+        {
+            if (!statValues.ContainsKey(statName))
+            {
+                statValues.Add(statName, initialValue);
+            }
+        }
+
+        /// <summary>
+        /// Remove a stat from the list of stats that we are keeping track of.
+        /// </summary>
+        /// <param name="statName">Name of the stat to remove.</param>
+        /// <returns>True if the stat was removed successfully. False otherwise.</returns>
+        public bool RemoveStat(string statName)
+        {
+            return statValues.Remove(statName);
+        }
+
+        /// <summary>
+        /// Get the value of the given stat name.
+        /// </summary>
+        /// <param name="statName">Name of the stat</param>
+        /// <returns>Returns the value of the given stat (if it exists). Otherwise, returns 0.</returns>
+        public int GetStatValue(string statName)
+        {
+            if (statValues.ContainsKey(statName))
+            {
+                return statValues[statName];
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Try to get the value of the given stat name.
+        /// </summary>
+        /// <param name="statName">Name of the stat</param>
+        /// <param name="outValue">Reference to the variable where the result will be placed</param>
+        /// <returns>True if the stat exists and the value was successfully set. False otherwise.</returns>
+        public bool TryGetStatValue(string statName, out int outValue)
+        {
+            if (statValues.ContainsKey(statName))
+            {
+                outValue = statValues[statName];
+                return true;
+            }
+
+            outValue = 0;
+            return false;
+        }
+
+        /// <summary>
+        /// Set the value of the stat identified by the given stat name.
+        /// </summary>
+        /// <param name="statName">Name of the stat</param>
+        /// <param name="val">Value to set</param>
+        /// <returns>True if the stat exists and the value was successfully set. False otherwise.</returns>
+        public bool SetStatValue(string statName, int val)
+        {
+            if (statValues.ContainsKey(statName))
+            {
+                statValues[statName] = val;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Set the value of the given flag to the provided value.
+        /// </summary>
+        /// <param name="flagName">Name of the flag</param>
+        /// <param name="value">New value of the flag</param>
         public void SetFlagValue(string flagName, bool value)
         {
             if (value)
