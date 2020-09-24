@@ -60,6 +60,22 @@ namespace TamaCovid
         private DialogueSystemBehavior dialogueSystem;
 
         /// <summary>
+        /// Perform the provided action.
+        /// </summary>
+        /// <param name="action">Data related to the action being performed.</param>
+        public void DoAction(SO_Action action)
+        {
+            if (CurrentState == State.ActivitiesSelection)
+            {
+                // TODO: For now, just play the very first dialogue from the list.
+                // In the future, we need to play the first dialogue whose conditions are satisfied.
+                dialogueSystem.ShowDialogue(action.dialogues[0]);
+
+                CurrentState = State.PerformActivities;
+            }
+        }
+
+        /// <summary>
         /// Unity callback function that is called
         /// when the game object is created.
         /// </summary>
@@ -86,7 +102,9 @@ namespace TamaCovid
         /// </summary>
         private void Start()
         {
-            dialogueSystem.ShowDialogue(testIntroDialogue);
+            //dialogueSystem.ShowDialogue(testIntroDialogue);
+
+            CurrentState = State.Intro;
         }
 
         /// <summary>
@@ -98,81 +116,26 @@ namespace TamaCovid
             switch (CurrentState)
             {
                 case State.Intro:
+                    CurrentState = State.ActivitiesSelection;
+                    break;
 
+                case State.ActivitiesSelection:
+                    textBox.SetText("Choose activities for the day.", 0);
+                    break;
+
+                case State.PerformActivities:
                     if (dialogueSystem.IsDialogueFinished)
                     {
                         dialogueSystem.ShowDialogue(null);
-
-                        // For now, just jump to wake up sequence, and set the text about waking up
-                        textBox.SetText("You woke up at 8AM.");
-                        CurrentState = State.WakeUpSequence;
-                    }
-
-                    break;
-
-                case State.WakeUpSequence:
-
-                    // Temporary.
-                    // If player presses the next dialogue button,
-                    // [roceed to activities selection.
-                    if (IsProceedDialogButtonPressed())
-                    {
-                        textBox.SetText("Choose activities for the day.");
                         CurrentState = State.ActivitiesSelection;
                     }
 
                     break;
 
-                case State.ActivitiesSelection:
-
-                    // Temporary
-                    // If player presses the next dialogue button,
-                    // proceed to perform activities.
-                    if (IsProceedDialogButtonPressed())
-                    {
-                        textBox.SetText("Perform activities.");
-                        CurrentState = State.PerformActivities;
-                    }
-
-                    break;
-
-                case State.PerformActivities:
-
-                    // Temporary
-                    // If player presses the next dialogue button,
-                    // proceed to sleep preparation.
-                    if (IsProceedDialogButtonPressed())
-                    {
-                        textBox.SetText("Prepare to sleep.");
-                        CurrentState = State.PrepareToSleep;
-                    }
-
-                    break;
-
                 case State.PrepareToSleep:
-
-                    // Temporary
-                    // If player presses the next dialogue button,
-                    // sleep.
-                    if (IsProceedDialogButtonPressed())
-                    {
-                        textBox.SetText("Sleeping... zzzzz");
-                        CurrentState = State.Sleep;
-                    }
-
                     break;
 
                 case State.Sleep:
-
-                    // Temporary
-                    // If player presses the next dialogue button,
-                    // wake up
-                    if (IsProceedDialogButtonPressed())
-                    {
-                        textBox.SetText("You woke up at 8AM.");
-                        CurrentState = State.WakeUpSequence;
-                    }
-
                     break;
 
                 case State.GameEnd:

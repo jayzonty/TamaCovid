@@ -101,7 +101,7 @@ namespace TamaCovid
                     }
                     else
                     {
-                        textBox.SetText("");
+                        textBox.SetText(null, 2);
                     }
                 }
             }
@@ -126,7 +126,7 @@ namespace TamaCovid
                 Dialogue.Line line = CurrentDialogue.lines[CurrentDialogueLineIndex];
                 if (ParseConditions(line.conditionsString))
                 {
-                    textBox.SetText(line.message);
+                    textBox.SetText(line.message, 2);
                     ParseCommands(line.commandsString);
                     break;
                 }

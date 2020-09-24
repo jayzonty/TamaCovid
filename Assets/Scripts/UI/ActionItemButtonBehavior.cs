@@ -32,6 +32,11 @@ namespace TamaCovid
         private TextBoxBehavior textBox;
 
         /// <summary>
+        /// Reference to the main game behavior script.
+        /// </summary>
+        private MainGameBehavior mainGameBehavior;
+
+        /// <summary>
         /// Unity callback function that is called
         /// when the game object is created.
         /// </summary>
@@ -42,6 +47,8 @@ namespace TamaCovid
             buttonText = button.GetComponentInChildren<Text>();
 
             textBox = GameObject.FindObjectOfType<TextBoxBehavior>();
+
+            mainGameBehavior = GameObject.FindObjectOfType<MainGameBehavior>();
         }
 
         /// <summary>
@@ -84,8 +91,12 @@ namespace TamaCovid
         {
             if (actionData != null)
             {
-                // For now, print out the display name when this button is clicked.
-                Debug.Log(actionData.displayName);
+                // TODO: For now, call the DoAction method of the MainGameBehavior script directly.
+                // Maybe it's better in the future to pass a message via a messaging system.
+                if (mainGameBehavior != null)
+                {
+                    mainGameBehavior.DoAction(actionData);
+                }
             }
         }
 
@@ -99,7 +110,7 @@ namespace TamaCovid
         {
             if (textBox != null)
             {
-                textBox.SetText(actionData.description);
+                textBox.SetText(actionData.description, 1);
             }
         }
 
@@ -113,7 +124,7 @@ namespace TamaCovid
         {
             if (textBox != null)
             {
-                textBox.SetText("");
+                textBox.SetText("", 1);
             }
         }
     }
