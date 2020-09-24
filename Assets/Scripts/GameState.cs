@@ -25,12 +25,12 @@ namespace TamaCovid
         {
             get
             {
-                return GetFlagValue("#hasMask");
+                return GetFlagValue("hasMask");
             }
 
             set
             {
-                SetFlagValue("#hasMask", value);
+                SetFlagValue("hasMask", value);
             }
         }
 
@@ -41,12 +41,12 @@ namespace TamaCovid
         {
             get
             {
-                return GetFlagValue("#hasDepression");
+                return GetFlagValue("hasDepression");
             }
 
             set
             {
-                SetFlagValue("#hasDepression", value);
+                SetFlagValue("hasDepression", value);
             }
         }
 
@@ -57,12 +57,12 @@ namespace TamaCovid
         {
             get
             {
-                return GetFlagValue("#hasCovid");
+                return GetFlagValue("hasCovid");
             }
 
             set
             {
-                SetFlagValue("#hasCovid", value);
+                SetFlagValue("hasCovid", value);
             }
         }
 
@@ -73,12 +73,12 @@ namespace TamaCovid
         {
             get
             {
-                return GetFlagValue("#hasCar");
+                return GetFlagValue("hasCar");
             }
 
             set
             {
-                SetFlagValue("#hasCar", value);
+                SetFlagValue("hasCar", value);
             }
         }
 
@@ -89,12 +89,12 @@ namespace TamaCovid
         {
             get
             {
-                return GetFlagValue("#isImmunocompromised");
+                return GetFlagValue("isImmunocompromised");
             }
 
             set
             {
-                SetFlagValue("#isImmunocompromised", value);
+                SetFlagValue("isImmunocompromised", value);
             }
         }
 

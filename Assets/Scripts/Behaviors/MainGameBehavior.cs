@@ -73,6 +73,10 @@ namespace TamaCovid
             GameState.AddStat(Constants.HUNGER_STAT_NAME);
             GameState.AddStat(Constants.ANXIETY_STAT_NAME);
 
+            // TODO: Move the randomization somewhere else.
+            // For testing purposes.
+            GameState.SetFlagValue("hasCovid", Random.value <= 0.5f);
+
             dialogueSystem = GameObject.FindObjectOfType<DialogueSystemBehavior>();
         }
 

@@ -127,7 +127,6 @@ namespace TamaCovid
                 if (ParseConditions(line.conditionsString))
                 {
                     textBox.SetText(line.message);
-                    Debug.Log(line.message);
                     ParseCommands(line.commandsString);
                     break;
                 }
@@ -176,7 +175,8 @@ namespace TamaCovid
 
             foreach (string command in commands)
             {
-                if (!string.IsNullOrEmpty(command))
+                string commandStr = command.Trim();
+                if (!string.IsNullOrEmpty(commandStr))
                 {
                     if (command.StartsWith("@"))
                     {
@@ -186,40 +186,44 @@ namespace TamaCovid
                     {
                         // We're expecting a = b, a + b, or a - b
                         char op = '=';
-                        if (command.Contains("+"))
+                        if (commandStr.Contains("+"))
                         {
                             op = '+';
                         }
-                        else if (command.Contains("-"))
+                        else if (commandStr.Contains("-"))
                         {
                             op = '-';
                         }
 
-                        string[] tokens = command.Split(op);
+                        string[] tokens = commandStr.Split(op);
                         if (tokens.Length == 2) // If it's one of the 3 formats above, we expect to get both a and b
                         {
                             string a = tokens[0].Trim();
                             string b = tokens[1].Trim();
 
-                            // TODO: Refactor this to something more flexible,
-                            // like get a reference to the variable from the name,
-                            // and set the value accordingly, something like
-                            // gameState.stats["money"] = value
+                            // First try if a is a stat name. If it is, apply the
+                            // operation accordingly.
+                            int statVal;
+                            if (gameState.TryGetStatValue(a, out statVal))
+                            {
+                                int intVal = 0;
+                                int.TryParse(b, out intVal);
 
-                            if (a.StartsWith("#")) // Flag
+                                if (op == '=') { statVal = intVal; }
+                                else if (op == '+') { statVal += intVal; }
+                                else if (op == '-') { statVal -= intVal; }
+
+                                gameState.SetStatValue(a, statVal);
+                            }
+                            // If it's not a stat name, assume it's a flag, and
+                            // set the value accordingly.
+                            else
                             {
                                 bool flagVal = false;
                                 if (bool.TryParse(b, out flagVal))
                                 {
                                     gameState.SetFlagValue(a, flagVal);
                                 }
-                            }
-                            else // Stat
-                            {
-                                int intVal = 0;
-                                int.TryParse(b, out intVal);
-
-                                gameState.SetStatValue(a, intVal);
                             }
                         }
                     }
@@ -234,9 +238,122 @@ namespace TamaCovid
         /// <returns></returns>
         private bool ParseConditions(string conditionsString)
         {
-            // TODO: Implement
+            conditionsString = conditionsString.Trim();
+            if (string.IsNullOrEmpty(conditionsString))
+            {
+                return true;
+            }
 
-            return true;
+            if (conditionsString.Contains(" "))
+            {
+                string[] expressions = conditionsString.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+                foreach (string expression in expressions)
+                {
+                    if (!ParseConditions(expression))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else if (conditionsString.Contains("|"))
+            {
+                string[] expressions = conditionsString.Split(new char[] { '|' }, System.StringSplitOptions.RemoveEmptyEntries);
+                foreach (string expression in expressions)
+                {
+                    if (ParseConditions(expression))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                if (conditionsString.Contains("=") || conditionsString.Contains(">") || conditionsString.Contains("<"))
+                {
+                    int aLength = 0, bStart = 0;
+                    bool lessThan = false, greaterThan = false, equal = false;
+                    if (conditionsString.Contains("==") || conditionsString.Contains("!="))
+                    {
+                        aLength = conditionsString.IndexOf('=');
+                        bStart = aLength + 2;
+                        equal = conditionsString.Contains("==");
+                    }
+                    else if (conditionsString.Contains("<")) // a < b, a <= b
+                    {
+                        lessThan = true;
+                        aLength = conditionsString.IndexOf('<');
+                        bStart = aLength + 1;
+                        if (conditionsString.Contains("="))
+                        {
+                            equal = true;
+                            ++bStart;
+                        }
+                    }
+                    else // a > b, a >= b
+                    {
+                        greaterThan = true;
+                        aLength = conditionsString.IndexOf('>');
+                        bStart = aLength + 1;
+                        if (conditionsString.Contains("="))
+                        {
+                            equal = true;
+                            ++bStart;
+                        }
+                    }
+
+                    string statName = conditionsString.Substring(0, aLength);
+                    int statValue;
+                    if (gameState.TryGetStatValue(statName, out statValue))
+                    {
+                        int val;
+                        if (int.TryParse(conditionsString.Substring(bStart), out val))
+                        {
+                            if (lessThan)
+                            {
+                                if (equal) { return statValue <= val; }
+                                else { return statValue < val; }
+                            }
+                            else if (greaterThan)
+                            {
+                                if (equal) { return statValue >= val; }
+                                else { return statValue > val; }
+                            }
+                            else if (equal)
+                            {
+                                return statValue == val;
+                            }
+                            else
+                            {
+                                return statValue != val;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    bool negate = false;
+                    if (conditionsString.StartsWith("!"))
+                    {
+                        negate = true;
+                        conditionsString = conditionsString.Substring(1);
+                    }
+
+                    bool flagValue = gameState.GetFlagValue(conditionsString);
+                    return flagValue != negate;
+                }
+            }
         }
     }
 }

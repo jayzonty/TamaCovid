@@ -1290,6 +1290,12 @@ MonoBehaviour:
     - message: And I need to borrow some money from you...
       commandsString: money-200
       conditionsString: 
+    - message: Oh no, you already have COVID-19 from the start!
+      commandsString: 
+      conditionsString: hasCovid
+    - message: Nice, you don't have COVID-19 at the start of the game.
+      commandsString: 
+      conditionsString: '!hasCovid'
     - message: Okay bye!
       commandsString: 
       conditionsString: 
