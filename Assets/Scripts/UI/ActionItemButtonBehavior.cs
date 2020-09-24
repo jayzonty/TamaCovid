@@ -66,13 +66,6 @@ namespace TamaCovid
         /// </summary>
         private void Start()
         {
-            if (buttonText != null)
-            {
-                if (actionData != null)
-                {
-                    buttonText.text = actionData.displayName;
-                }
-            }
         }
 
         /// <summary>
