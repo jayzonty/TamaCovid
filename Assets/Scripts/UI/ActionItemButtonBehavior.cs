@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TamaCovid
@@ -8,7 +9,7 @@ namespace TamaCovid
     /// an action item button UI.
     /// </summary>
     [RequireComponent(typeof(Button))]
-    public class ActionItemButtonBehavior : MonoBehaviour
+    public class ActionItemButtonBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         /// <summary>
         /// Data for the action tied to this button.
@@ -26,6 +27,11 @@ namespace TamaCovid
         private Text buttonText;
 
         /// <summary>
+        /// Reference to the text box script.
+        /// </summary>
+        private TextBoxBehavior textBox;
+
+        /// <summary>
         /// Unity callback function that is called
         /// when the game object is created.
         /// </summary>
@@ -34,6 +40,8 @@ namespace TamaCovid
             button = GetComponent<Button>();
 
             buttonText = button.GetComponentInChildren<Text>();
+
+            textBox = GameObject.FindObjectOfType<TextBoxBehavior>();
         }
 
         /// <summary>
@@ -78,6 +86,34 @@ namespace TamaCovid
             {
                 // For now, print out the display name when this button is clicked.
                 Debug.Log(actionData.displayName);
+            }
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// when the mouse enters the game object this
+        /// script is attached to.
+        /// </summary>
+        /// <param name="eventData"></param>
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (textBox != null)
+            {
+                textBox.SetText(actionData.description);
+            }
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// when the mouse leaves the game object this
+        /// script is attached to.
+        /// </summary>
+        /// <param name="eventData"></param>
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (textBox != null)
+            {
+                textBox.SetText("");
             }
         }
     }
