@@ -55,10 +55,10 @@ namespace TamaCovid
         /// </summary>
         private void Start()
         {
-            MainGameBehavior mainGameBehavior = GameObject.FindObjectOfType<MainGameBehavior>();
-            if (mainGameBehavior != null)
+            GameStateBehavior gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
+            if (gameStateBehavior != null)
             {
-                gameState = mainGameBehavior.GameState;
+                gameState = gameStateBehavior.Data;
             }
         }
 

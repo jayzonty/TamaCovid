@@ -8,6 +8,12 @@ namespace TamaCovid
     /// </summary>
     public class GameState
     {
+        public delegate void StatsChangedDelegate(string statName);
+        public event StatsChangedDelegate OnStatsChanged;
+
+        public delegate void FlagsChangedDelegate(string flagName);
+        public event FlagsChangedDelegate OnFlagsChanged;
+
         #region Daily Stats
 
         /**
@@ -120,6 +126,8 @@ namespace TamaCovid
             if (!statValues.ContainsKey(statName))
             {
                 statValues.Add(statName, initialValue);
+
+                OnStatsChanged?.Invoke(statName);
             }
         }
 
@@ -130,7 +138,9 @@ namespace TamaCovid
         /// <returns>True if the stat was removed successfully. False otherwise.</returns>
         public bool RemoveStat(string statName)
         {
-            return statValues.Remove(statName);
+            bool ret = statValues.Remove(statName);
+            OnStatsChanged?.Invoke(statName);
+            return ret;
         }
 
         /// <summary>
@@ -177,6 +187,7 @@ namespace TamaCovid
             if (statValues.ContainsKey(statName))
             {
                 statValues[statName] = val;
+                OnStatsChanged?.Invoke(statName);
                 return true;
             }
 
@@ -198,6 +209,8 @@ namespace TamaCovid
             {
                 flags.Remove(flagName);
             }
+
+            OnFlagsChanged?.Invoke(flagName);
         }
 
         /// <summary>

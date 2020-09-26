@@ -17,15 +17,6 @@ namespace TamaCovid
         public TextBoxBehavior textBox;
 
         /// <summary>
-        /// Game state data.
-        /// </summary>
-        public GameState GameState
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Test dialogue. (TEMPORARY)
         /// </summary>
         public Dialogue testIntroDialogue;
@@ -79,21 +70,6 @@ namespace TamaCovid
         /// </summary>
         private void Awake()
         {
-            GameState = new GameState();
-
-            GameState.AddStat(Constants.DAY_STAT_NAME);
-            GameState.AddStat(Constants.TIME_STAT_NAME);
-
-            GameState.AddStat(Constants.MONEY_STAT_NAME);
-            GameState.AddStat(Constants.ENERGY_STAT_NAME);
-            GameState.AddStat(Constants.FOOD_STAT_NAME);
-            GameState.AddStat(Constants.HUNGER_STAT_NAME);
-            GameState.AddStat(Constants.ANXIETY_STAT_NAME);
-
-            // TODO: Move the randomization somewhere else.
-            // For testing purposes.
-            GameState.SetFlagValue("hasCovid", Random.value <= 0.5f);
-
             dialogueSystem = GameObject.FindObjectOfType<DialogueSystemBehavior>();
         }
 
