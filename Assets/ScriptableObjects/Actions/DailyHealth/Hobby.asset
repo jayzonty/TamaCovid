@@ -18,6 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You did your hobbies.
-      commandsString: anxiety-5; energy-5
+      commandsString: stress-5; energy-5
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

@@ -31,7 +31,7 @@ namespace TamaCovid
             Data.AddStat(Constants.ENERGY_STAT_NAME);
             Data.AddStat(Constants.FOOD_STAT_NAME);
             Data.AddStat(Constants.HUNGER_STAT_NAME);
-            Data.AddStat(Constants.ANXIETY_STAT_NAME);
+            Data.AddStat(Constants.STRESS_STAT_NAME);
         }
     }
 }

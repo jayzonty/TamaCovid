@@ -18,6 +18,18 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You watched TV.
-      commandsString: anxiety+5; energy-5
+      commandsString: 
+      conditionsString: 
+    - message: You got stressed due to watching TV.
+      commandsString: stress+10; energy-10
+      conditionsString: 
+    conditionsString: '@rollSuccess(0.5)'
+  - lines:
+    - message: You watched TV.
+      commandsString: 
+      conditionsString: 
+    - message: You got enjoyment out of watching TV.
+      commandsString: stress-10; energy-10
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

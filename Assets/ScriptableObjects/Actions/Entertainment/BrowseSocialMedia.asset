@@ -18,6 +18,18 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You browsed social media.
-      commandsString: anxiety+5; energy-5
+      commandsString: 
+      conditionsString: 
+    - message: You got stressed from reading social media.
+      commandsString: stress+10
+      conditionsString: 
+    conditionsString: '@rollSuccess(0.5)'
+  - lines:
+    - message: You browsed social media.
+      commandsString: 
+      conditionsString: 
+    - message: You enjoyed reading social media.
+      commandsString: stress-10
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

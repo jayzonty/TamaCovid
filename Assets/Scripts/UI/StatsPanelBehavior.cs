@@ -42,7 +42,7 @@ namespace TamaCovid
         /// <summary>
         /// Text display for the anxiety level
         /// </summary>
-        public Text anxietyText;
+        public Text stressText;
 
         /// <summary>
         /// Game state data
@@ -98,9 +98,9 @@ namespace TamaCovid
                 hungerText.text = "Hunger: " + gameState.GetStatValue(Constants.HUNGER_STAT_NAME);
             }
 
-            if (anxietyText != null)
+            if (stressText != null)
             {
-                anxietyText.text = "Anxiety: " + gameState.GetStatValue(Constants.ANXIETY_STAT_NAME);
+                stressText.text = "Stress: " + gameState.GetStatValue(Constants.STRESS_STAT_NAME);
             }
         }
     }

@@ -18,6 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You decided to do some Yoga.
-      commandsString: 
+      commandsString: stress-10; energy-10
       conditionsString: 
     conditionsString: 
+  enabledConditionString: sawYogaAd

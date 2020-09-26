@@ -18,6 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You took a shower.
-      commandsString: energy+5; anxiety-5
+      commandsString: energy+5; stress-5
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 
