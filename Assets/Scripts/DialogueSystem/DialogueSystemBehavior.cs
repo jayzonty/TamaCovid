@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace TamaCovid
 {
@@ -69,6 +71,26 @@ namespace TamaCovid
 
             CurrentDialogueLineIndex = -1;
             ShowNextDialogueLine();
+        }
+
+        /// <summary>
+        /// Show the first dialogue whose conditions are
+        /// satisfied.
+        /// </summary>
+        /// <param name="dialogueList">List of dialogues</param>
+        /// <returns>True if there was a dialogue whose conditions are satisfied. False otherwise.</returns>
+        public bool ShowFirstPossibleDialogue(List<Dialogue> dialogueList)
+        {
+            foreach (Dialogue dialogue in dialogueList)
+            {
+                if (ParseConditions(dialogue.conditionsString))
+                {
+                    ShowDialogue(dialogue);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

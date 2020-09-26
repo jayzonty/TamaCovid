@@ -67,9 +67,7 @@ namespace TamaCovid
         {
             if (CurrentState == State.ActivitiesSelection)
             {
-                // TODO: For now, just play the very first dialogue from the list.
-                // In the future, we need to play the first dialogue whose conditions are satisfied.
-                dialogueSystem.ShowDialogue(action.dialogues[0]);
+                dialogueSystem.ShowFirstPossibleDialogue(action.dialogues);
 
                 CurrentState = State.PerformActivities;
             }
