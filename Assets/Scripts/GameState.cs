@@ -109,7 +109,7 @@ namespace TamaCovid
         /// <summary>
         /// Dictionary mapping a stat to its value via its name.
         /// </summary>
-        private Dictionary<string, int> statValues = new Dictionary<string, int>();
+        private Dictionary<string, StatValue> statValues = new Dictionary<string, StatValue>();
 
         /// <summary>
         /// Game flags
@@ -121,11 +121,11 @@ namespace TamaCovid
         /// </summary>
         /// <param name="statName">Name of the stat that will be added.</param>
         /// <param name="initialValue">Initial value of the stat</param>
-        public void AddStat(string statName, int initialValue = 0)
+        public void AddStat(string statName, int initialValue = 0, int minValue = 0, int maxValue = int.MaxValue)
         {
             if (!statValues.ContainsKey(statName))
             {
-                statValues.Add(statName, initialValue);
+                statValues.Add(statName, new StatValue(initialValue, minValue, maxValue));
 
                 OnStatsChanged?.Invoke(statName);
             }
@@ -152,7 +152,7 @@ namespace TamaCovid
         {
             if (statValues.ContainsKey(statName))
             {
-                return statValues[statName];
+                return statValues[statName].Value;
             }
 
             return 0;
@@ -168,7 +168,7 @@ namespace TamaCovid
         {
             if (statValues.ContainsKey(statName))
             {
-                outValue = statValues[statName];
+                outValue = statValues[statName].Value;
                 return true;
             }
 
@@ -186,7 +186,7 @@ namespace TamaCovid
         {
             if (statValues.ContainsKey(statName))
             {
-                statValues[statName] = val;
+                statValues[statName].Value = val;
                 OnStatsChanged?.Invoke(statName);
                 return true;
             }
