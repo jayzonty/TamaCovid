@@ -260,6 +260,8 @@ namespace TamaCovid
         /// <returns></returns>
         private bool ParseConditions(string conditionsString)
         {
+            // TODO: Refactor. This function is getting long and not flexible
+
             conditionsString = conditionsString.Trim();
             if (string.IsNullOrEmpty(conditionsString))
             {
@@ -294,7 +296,29 @@ namespace TamaCovid
             }
             else
             {
-                if (conditionsString.Contains("=") || conditionsString.Contains(">") || conditionsString.Contains("<"))
+                if (conditionsString.StartsWith("@"))
+                {
+                    // Special commands (@command(...))
+
+                    int openParenthesisIndex = conditionsString.IndexOf('(');
+                    int closedParenthesisIndex = conditionsString.IndexOf(')');
+
+                    int commandNameLength = openParenthesisIndex - 1;
+                    string commandName = conditionsString.Substring(1, commandNameLength);
+
+                    int argumentsStringLength = closedParenthesisIndex - openParenthesisIndex - 1;
+                    string argumentsString = conditionsString.Substring(openParenthesisIndex + 1, argumentsStringLength);
+
+                    if (commandName == "rollSuccess")
+                    {
+                        return RollSuccessCommand(float.Parse(argumentsString));
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (conditionsString.Contains("=") || conditionsString.Contains(">") || conditionsString.Contains("<"))
                 {
                     int aLength = 0, bStart = 0;
                     bool lessThan = false, greaterThan = false, equal = false;
@@ -376,6 +400,18 @@ namespace TamaCovid
                     return flagValue != negate;
                 }
             }
+        }
+
+        /// <summary>
+        /// Command for rolling either a true or false given
+        /// the odds of getting a true.
+        /// </summary>
+        /// <param name="odds">Odds of getting a true (0.0 ~ 1.0)</param>
+        /// <returns></returns>
+        private bool RollSuccessCommand(float odds)
+        {
+            float roll = Random.Range(0.0f, 1.0f);
+            return roll <= odds;
         }
     }
 }
