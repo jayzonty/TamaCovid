@@ -10,6 +10,16 @@ namespace TamaCovid
     public class StatsPanelBehavior : MonoBehaviour
     {
         /// <summary>
+        /// Text display for the in-game day
+        /// </summary>
+        public Text dayText;
+
+        /// <summary>
+        /// Text display for the in-game time
+        /// </summary>
+        public Text timeText;
+
+        /// <summary>
         /// Text display for the money
         /// </summary>
         public Text moneyText;
@@ -58,6 +68,16 @@ namespace TamaCovid
         /// </summary>
         private void Update()
         {
+            if (dayText != null)
+            {
+                dayText.text = "Day: " + gameState.GetStatValue(Constants.DAY_STAT_NAME);
+            }
+
+            if (timeText != null)
+            {
+                timeText.text = "Time: " + gameState.GetStatValue(Constants.TIME_STAT_NAME);
+            }
+
             if (moneyText != null)
             {
                 moneyText.text = "Money: " + gameState.GetStatValue(Constants.MONEY_STAT_NAME);

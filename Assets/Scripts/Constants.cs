@@ -7,6 +7,10 @@ namespace TamaCovid
     /// </summary>
     public class Constants
     {
+        public static string DAY_STAT_NAME = "day";
+
+        public static string TIME_STAT_NAME = "time";
+
         /// <summary>
         /// Constant for the name of the money stat.
         /// </summary>

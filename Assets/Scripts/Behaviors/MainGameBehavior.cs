@@ -83,6 +83,9 @@ namespace TamaCovid
         {
             GameState = new GameState();
 
+            GameState.AddStat(Constants.DAY_STAT_NAME);
+            GameState.AddStat(Constants.TIME_STAT_NAME);
+
             GameState.AddStat(Constants.MONEY_STAT_NAME);
             GameState.AddStat(Constants.ENERGY_STAT_NAME);
             GameState.AddStat(Constants.FOOD_STAT_NAME);
