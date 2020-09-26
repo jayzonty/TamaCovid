@@ -37,6 +37,16 @@ namespace TamaCovid
         private MainGameBehavior mainGameBehavior;
 
         /// <summary>
+        /// Reference to the parser behavior script.
+        /// </summary>
+        private ParserBehavior parserBehavior;
+
+        /// <summary>
+        /// Game state data.
+        /// </summary>
+        private GameState gameState;
+
+        /// <summary>
         /// Unity callback function that is called
         /// when the game object is created.
         /// </summary>
@@ -49,6 +59,14 @@ namespace TamaCovid
             textBox = GameObject.FindObjectOfType<TextBoxBehavior>();
 
             mainGameBehavior = GameObject.FindObjectOfType<MainGameBehavior>();
+
+            parserBehavior = GameObject.FindObjectOfType<ParserBehavior>();
+
+            GameStateBehavior gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
+            if (gameStateBehavior != null)
+            {
+                gameState = gameStateBehavior.Data;
+            }
         }
 
         /// <summary>
@@ -60,6 +78,12 @@ namespace TamaCovid
             if (button != null)
             {
                 button.onClick.AddListener(HandleButtonClicked);
+            }
+
+            if (gameState != null)
+            {
+                gameState.OnFlagsChanged += StatsOrFlagsChangedHandler;
+                gameState.OnStatsChanged += StatsOrFlagsChangedHandler;
             }
         }
 
@@ -73,6 +97,12 @@ namespace TamaCovid
             {
                 button.onClick.RemoveListener(HandleButtonClicked);
             }
+
+            if (gameState != null)
+            {
+                gameState.OnFlagsChanged -= StatsOrFlagsChangedHandler;
+                gameState.OnStatsChanged -= StatsOrFlagsChangedHandler;
+            }
         }
 
         /// <summary>
@@ -81,6 +111,18 @@ namespace TamaCovid
         /// </summary>
         private void Start()
         {
+            if ((button != null) && (parserBehavior != null))
+            {
+                button.interactable = parserBehavior.ParseConditions(actionData.enabledConditionString);
+            }
+        }
+
+        private void StatsOrFlagsChangedHandler(string flagName)
+        {
+            if ((button != null) && (parserBehavior != null))
+            {
+                button.interactable = parserBehavior.ParseConditions(actionData.enabledConditionString);
+            }
         }
 
         /// <summary>
