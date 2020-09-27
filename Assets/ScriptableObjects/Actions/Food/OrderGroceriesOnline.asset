@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 386b5f303c611d74b91b8d8aca4d3970, type: 3}
-  m_Name: RelaxedDinner
+  m_Name: OrderGroceriesOnline
   m_EditorClassIdentifier: 
   category: Food
-  displayName: Dinner (Relaxed)
-  description: A relaxed dinner.
+  displayName: Order Groceries Online
+  description: Have groceries delivered to your house.
   dialogues:
   - lines:
-    - message: You ate dinner...
-      commandsString: 
-      conditionsString: 
-    - message: You gained some energy and lost some hunger!
-      commandsString: energy+5; hunger-5
+    - message: You went out to buy groceries.
+      commandsString: food+30; money-200; energy-5; time+15
       conditionsString: 
     conditionsString: 
+  enabledConditionString: money>=200 energy>=5

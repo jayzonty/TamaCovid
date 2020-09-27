@@ -2555,7 +2555,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: categoryName
@@ -2568,13 +2568,17 @@ PrefabInstance:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 5227fa0397eed634689dd744e536a5a9, type: 2}
+      objectReference: {fileID: 11400000, guid: 99ab30ed8e8232b42852f84f135d2deb, type: 2}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 1bd05de407506564fa34a6b052283447, type: 2}
+      objectReference: {fileID: 11400000, guid: 5227fa0397eed634689dd744e536a5a9, type: 2}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bd05de407506564fa34a6b052283447, type: 2}
+    - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
+      propertyPath: actionList.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: f30b8ab3a57b9d343bc345b2522106b5, type: 2}
     - target: {fileID: 6885934338037371101, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
