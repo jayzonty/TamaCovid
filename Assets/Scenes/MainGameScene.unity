@@ -3322,42 +3322,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textBox: {fileID: 837420625}
-  testIntroDialogue:
-    lines:
-    - message: Hello there!
+  startOfDayEvents:
+  - {fileID: 11400000, guid: e297eeb494217cc47ad8a86687c86385, type: 2}
+  - {fileID: 11400000, guid: 15ff077d95cce374a8af3f290ac017ba, type: 2}
+  - {fileID: 11400000, guid: 18c5aaca6396eab4da904560ff0d6ba6, type: 2}
+  startOfDayDialogues:
+  - lines:
+    - message: Rent is due in 2 days. Make sure you have 500 monies by then.
       commandsString: 
       conditionsString: 
-    - message: Welcome to TamaCovid.
+    conditionsString: day==1
+  - lines:
+    - message: A family member is sick. You can either give medicine, or you can
+        take him/her to the hospital.
       commandsString: 
       conditionsString: 
-    - message: This is a test dialogue for the dialogue system.
-      commandsString: 
-      conditionsString: 
-    - message: Testing... testing... teeeesting....
-      commandsString: 
-      conditionsString: 
-    - message: Looks good to me!
-      commandsString: 
-      conditionsString: 
-    - message: Here, let me give you some monies. Have fun!
-      commandsString: money+100; money+500
-      conditionsString: 
-    - message: I'll have to make you more hungry though...
-      commandsString: hunger+10
-      conditionsString: 
-    - message: And I need to borrow some money from you...
-      commandsString: money-200
-      conditionsString: 
-    - message: Oh no, you already have COVID-19 from the start!
-      commandsString: 
-      conditionsString: hasCovid
-    - message: Nice, you don't have COVID-19 at the start of the game.
-      commandsString: 
-      conditionsString: '!hasCovid'
-    - message: Okay bye!
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
+    conditionsString: isFamilyMemberSick
 --- !u!4 &1337986159
 Transform:
   m_ObjectHideFlags: 0

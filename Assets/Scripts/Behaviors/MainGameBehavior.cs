@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace TamaCovid
 {
@@ -17,22 +19,25 @@ namespace TamaCovid
         public TextBoxBehavior textBox;
 
         /// <summary>
-        /// Test dialogue. (TEMPORARY)
+        /// Start of day events
         /// </summary>
-        public Dialogue testIntroDialogue;
+        public List<SO_Event> startOfDayEvents;
+
+        /// <summary>
+        /// Start of day dialogues
+        /// </summary>
+        public List<Dialogue> startOfDayDialogues;
 
         /// <summary>
         /// States within the gameplay loop
         /// </summary>
         public enum State
         {
-            Intro,
-            PreWakeUpSequence,
-            WakeUpSequence,
+            Setup,
+            StartOfDayEvents,
+            StartOfDayDialogues,
             ActivitiesSelection,
-            PerformActivities,
-            PrepareToSleep,
-            Sleep,
+            PerformAction,
             GameEnd
         }
 
@@ -51,6 +56,22 @@ namespace TamaCovid
         private DialogueSystemBehavior dialogueSystem;
 
         /// <summary>
+        /// Reference to the parser behavior script
+        /// </summary>
+        private ParserBehavior parserBehavior;
+
+        /// <summary>
+        /// Reference to the game state data.
+        /// </summary>
+        private GameState gameState;
+
+        /// <summary>
+        /// Cached list of dialogues to play.
+        /// (Used during CurrentState == State.StartOfDayDialogues)
+        /// </summary>
+        private List<Dialogue> dialoguesToPlay = new List<Dialogue>();
+
+        /// <summary>
         /// Perform the provided action.
         /// </summary>
         /// <param name="action">Data related to the action being performed.</param>
@@ -60,7 +81,7 @@ namespace TamaCovid
             {
                 dialogueSystem.ShowFirstPossibleDialogue(action.dialogues);
 
-                CurrentState = State.PerformActivities;
+                CurrentState = State.PerformAction;
             }
         }
 
@@ -71,6 +92,14 @@ namespace TamaCovid
         private void Awake()
         {
             dialogueSystem = GameObject.FindObjectOfType<DialogueSystemBehavior>();
+
+            parserBehavior = GameObject.FindObjectOfType<ParserBehavior>();
+
+            GameStateBehavior gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
+            if (gameStateBehavior != null)
+            {
+                gameState = gameStateBehavior.Data;
+            }
         }
 
         /// <summary>
@@ -79,9 +108,7 @@ namespace TamaCovid
         /// </summary>
         private void Start()
         {
-            //dialogueSystem.ShowDialogue(testIntroDialogue);
-
-            CurrentState = State.Intro;
+            CurrentState = State.Setup;
         }
 
         /// <summary>
@@ -92,27 +119,71 @@ namespace TamaCovid
         {
             switch (CurrentState)
             {
-                case State.Intro:
-                    CurrentState = State.ActivitiesSelection;
+                case State.Setup:
+                    // Setup stat values of player. In the future, set this
+                    // based on some sort of preset.
+                    gameState.SetStatValue(Constants.DAY_STAT_NAME, 1);
+
+                    gameState.SetStatValue(Constants.MONEY_STAT_NAME, 500);
+
+                    gameState.HasDepression = Random.value <= 0.25f;
+
+                    CurrentState = State.StartOfDayEvents;
+
+                    break;
+
+                case State.StartOfDayEvents:
+                    foreach (SO_Event startOfDayEvent in startOfDayEvents)
+                    {
+                        foreach (SO_Event.EventBranch eventBranch in startOfDayEvent.eventBranches)
+                        {
+                            if (parserBehavior.ParseConditions(eventBranch.triggerCondition))
+                            {
+                                parserBehavior.ParseCommands(eventBranch.eventAction);
+                                break;
+                            }
+                        }
+                    }
+                    foreach (Dialogue startOfDayDialogue in startOfDayDialogues)
+                    {
+                        if (parserBehavior.ParseConditions(startOfDayDialogue.conditionsString))
+                        {
+                            dialoguesToPlay.Add(startOfDayDialogue);
+                        }
+                    }
+
+                    CurrentState = State.StartOfDayDialogues;
+
+                    break;
+
+                case State.StartOfDayDialogues:
+                    if (dialogueSystem.IsDialogueFinished)
+                    {
+                        if (dialoguesToPlay.Count > 0)
+                        {
+                            Dialogue dialogue = dialoguesToPlay[0];
+                            dialoguesToPlay.RemoveAt(0);
+                            dialogueSystem.ShowDialogue(dialogue);
+                        }
+                        else
+                        {
+                            CurrentState = State.ActivitiesSelection;
+                        }
+                    }
+
                     break;
 
                 case State.ActivitiesSelection:
                     textBox.SetText("Choose activities for the day.", 0);
                     break;
 
-                case State.PerformActivities:
+                case State.PerformAction:
                     if (dialogueSystem.IsDialogueFinished)
                     {
                         dialogueSystem.ShowDialogue(null);
                         CurrentState = State.ActivitiesSelection;
                     }
 
-                    break;
-
-                case State.PrepareToSleep:
-                    break;
-
-                case State.Sleep:
                     break;
 
                 case State.GameEnd:
