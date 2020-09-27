@@ -41,5 +41,15 @@ namespace TamaCovid
         /// Constant for the name of the stress stat.
         /// </summary>
         public static string STRESS_STAT_NAME = "stress";
+
+        /// <summary>
+        /// Constant for the name of the medicine stat.
+        /// </summary>
+        public static string MEDICINE_STAT_NAME = "medicine";
+
+        /// <summary>
+        /// Constant for the name of the job type stat.
+        /// </summary>
+        public static string JOB_TYPE_STAT_NAME = "job";
     }
 }

@@ -12,12 +12,7 @@ namespace TamaCovid
         /// <summary>
         /// Text display for the in-game day
         /// </summary>
-        public Text dayText;
-
-        /// <summary>
-        /// Text display for the in-game time
-        /// </summary>
-        public Text timeText;
+        public Text dayAndTimeText;
 
         /// <summary>
         /// Text display for the money
@@ -45,6 +40,21 @@ namespace TamaCovid
         public Text stressText;
 
         /// <summary>
+        /// Text display for the number of medicines held
+        /// </summary>
+        public Text medicineText;
+
+        /// <summary>
+        /// Text display for the current job
+        /// </summary>
+        public Text jobText;
+
+        /// <summary>
+        /// Text display for other status that the player has
+        /// </summary>
+        public Text statusText;
+
+        /// <summary>
         /// Game state data
         /// </summary>
         private GameState gameState;
@@ -68,14 +78,11 @@ namespace TamaCovid
         /// </summary>
         private void Update()
         {
-            if (dayText != null)
+            if (dayAndTimeText != null)
             {
-                dayText.text = "Day: " + gameState.GetStatValue(Constants.DAY_STAT_NAME);
-            }
-
-            if (timeText != null)
-            {
-                timeText.text = "Time: " + gameState.GetStatValue(Constants.TIME_STAT_NAME);
+                string text = "Day: " + gameState.GetStatValue(Constants.DAY_STAT_NAME);
+                text += " " + RawMinutesToFormattedTimeString(gameState.GetStatValue(Constants.TIME_STAT_NAME));
+                dayAndTimeText.text = text;
             }
 
             if (moneyText != null)
@@ -102,6 +109,52 @@ namespace TamaCovid
             {
                 stressText.text = "Stress: " + gameState.GetStatValue(Constants.STRESS_STAT_NAME);
             }
+
+            if (medicineText != null)
+            {
+                medicineText.text = "Medicine: " + gameState.GetStatValue(Constants.MEDICINE_STAT_NAME);
+            }
+
+            if (jobText != null)
+            {
+                jobText.text = "Job: " + gameState.GetStatValue(Constants.JOB_TYPE_STAT_NAME);
+            }
+
+            if (statusText != null)
+            {
+                string text = "";
+                if (gameState.IsImmunocompromised)
+                {
+                    text += "Immunocompromised\n";
+                }
+                if (gameState.HasDepression)
+                {
+                    text += "Has Depression\n";
+                }
+                if (gameState.HasMask)
+                {
+                    text += "Has Mask\n";
+                }
+                if (gameState.GetFlagValue("isSick"))
+                {
+                    text += "Sick\n";
+                }
+                statusText.text = text;
+            }
+        }
+
+        /// <summary>
+        /// Convert the provided time in minutes into a formatted string
+        /// in the format HH:MM
+        /// </summary>
+        /// <param name="rawMinutes">Time in minutes.</param>
+        /// <returns>Time in string formatted as HH:MM.</returns>
+        private string RawMinutesToFormattedTimeString(int rawMinutes)
+        {
+            int hour = rawMinutes / 60;
+            int minutes = rawMinutes % 60;
+
+            return string.Format("{0:D2}:{1:D2}", hour, minutes);
         }
     }
 }

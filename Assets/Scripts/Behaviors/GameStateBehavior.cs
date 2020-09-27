@@ -14,7 +14,7 @@ namespace TamaCovid
         {
             get;
             private set;
-        }
+        } = new GameState();
 
         /// <summary>
         /// Unity callback function that is called
@@ -22,8 +22,6 @@ namespace TamaCovid
         /// </summary>
         private void Awake()
         {
-            Data = new GameState();
-
             Data.AddStat(Constants.DAY_STAT_NAME);
             Data.AddStat(Constants.TIME_STAT_NAME);
 
@@ -32,6 +30,9 @@ namespace TamaCovid
             Data.AddStat(Constants.FOOD_STAT_NAME);
             Data.AddStat(Constants.HUNGER_STAT_NAME, 0, 0, 100);
             Data.AddStat(Constants.STRESS_STAT_NAME);
+
+            Data.AddStat(Constants.MEDICINE_STAT_NAME);
+            Data.AddStat(Constants.JOB_TYPE_STAT_NAME);
         }
     }
 }
