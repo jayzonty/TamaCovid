@@ -8,7 +8,7 @@ namespace TamaCovid
     /// Class that handles the behavior of an
     /// action list panel UI element.
     /// </summary>
-    public class ActionsListPanelBehavior : MonoBehaviour
+    public class ActionCategoryPanelBehavior : MonoBehaviour
     {
         /// <summary>
         /// Prefab for an action item button
@@ -41,6 +41,32 @@ namespace TamaCovid
         /// before the first update call.
         /// </summary>
         private void Start()
+        {
+            if (categoryText != null)
+            {
+                categoryText.text = categoryName;
+            }
+
+            if ((actionItemButtonPrefab != null) && (actionItemsPanelTransform != null))
+            {
+                foreach (SO_Action action in actionList)
+                {
+                    GameObject actionButtonObj = GameObject.Instantiate(actionItemButtonPrefab, actionItemsPanelTransform);
+
+                    ActionItemButtonBehavior actionItemButtonBehavior = actionButtonObj.GetComponent<ActionItemButtonBehavior>();
+                    if (actionItemButtonBehavior != null)
+                    {
+                        actionItemButtonBehavior.actionData = action;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unity callback function when a serialized
+        /// variable has been changed (Editor-mode only)
+        /// </summary>
+        private void OnValidate()
         {
             if (categoryText != null)
             {

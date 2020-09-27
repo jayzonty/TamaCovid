@@ -115,6 +115,14 @@ namespace TamaCovid
             {
                 button.interactable = parserBehavior.ParseConditions(actionData.enabledConditionString);
             }
+
+            if (buttonText != null)
+            {
+                if (actionData != null)
+                {
+                    buttonText.text = actionData.displayName;
+                }
+            }
         }
 
         private void StatsOrFlagsChangedHandler(string flagName)
