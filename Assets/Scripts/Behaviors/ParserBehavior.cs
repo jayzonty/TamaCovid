@@ -100,11 +100,12 @@ namespace TamaCovid
         {
             // TODO: Refactor. This function is getting long and not flexible
 
-            conditionsString = conditionsString.Trim();
             if (string.IsNullOrEmpty(conditionsString))
             {
                 return true;
             }
+
+            conditionsString = conditionsString.Trim();
 
             if (conditionsString.Contains(" "))
             {

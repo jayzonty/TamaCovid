@@ -34,5 +34,15 @@ namespace TamaCovid
             Data.AddStat(Constants.MEDICINE_STAT_NAME);
             Data.AddStat(Constants.JOB_TYPE_STAT_NAME);
         }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// before the first update call.
+        /// </summary>
+        private void Start()
+        {
+            // Set this game object to persist across scene loading/unloading
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }
