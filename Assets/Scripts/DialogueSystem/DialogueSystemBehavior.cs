@@ -185,13 +185,21 @@ namespace TamaCovid
             }
         }
 
+        /// <summary>
+        /// Gets the index of the next valid dialogue line for the current dialogue.
+        /// </summary>
+        /// <param name="startingIndex">Index where the search will start.</param>
+        /// <returns>The index of the next valid dialogue line. Returns -1 if a valid line was not found.</returns>
         private int GetNextDialogueLineIndex(int startingIndex)
         {
-            for (int i = startingIndex + 1; i < CurrentDialogue.lines.Count; ++i)
+            if (CurrentDialogue != null)
             {
-                if (parserBehavior.ParseConditions(CurrentDialogue.lines[i].conditionsString))
+                for (int i = startingIndex + 1; i < CurrentDialogue.lines.Count; ++i)
                 {
-                    return i;
+                    if (parserBehavior.ParseConditions(CurrentDialogue.lines[i].conditionsString))
+                    {
+                        return i;
+                    }
                 }
             }
 
