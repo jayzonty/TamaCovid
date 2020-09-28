@@ -181,7 +181,18 @@ namespace TamaCovid
                     if (dialogueSystem.IsDialogueFinished)
                     {
                         dialogueSystem.ShowDialogue(null);
-                        CurrentState = State.ActivitiesSelection;
+
+                        int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
+                        if (day > 7)
+                        {
+                            // Once the player ends day 7, the game ends as well.
+                            CurrentState = State.GameEnd;
+                        }
+                        else
+                        {
+                            // Proceed as normal.
+                            CurrentState = State.ActivitiesSelection;
+                        }
                     }
 
                     break;

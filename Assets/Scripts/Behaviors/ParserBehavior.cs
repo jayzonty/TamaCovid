@@ -73,6 +73,19 @@ namespace TamaCovid
                                 else if (op == '+') { statVal += intVal; }
                                 else if (op == '-') { statVal -= intVal; }
 
+                                // HACK: Quick hack for now to make sure the
+                                // time does not exceed 24 hours (1440 minutes).
+                                if (a == Constants.TIME_STAT_NAME)
+                                {
+                                    int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
+                                    while (statVal >= 1440)
+                                    {
+                                        statVal -= 1440;
+                                        ++day;
+                                    }
+                                    gameState.SetStatValue(Constants.DAY_STAT_NAME, day);
+                                }
+
                                 gameState.SetStatValue(a, statVal);
                             }
                             // If it's not a stat name, assume it's a flag, and
