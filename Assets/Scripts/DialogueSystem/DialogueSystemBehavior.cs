@@ -176,7 +176,7 @@ namespace TamaCovid
 
                 if (textBox != null)
                 {
-                    textBox.SetText(line.message);
+                    textBox.SetText(line.message, 2);
                 }
 
                 parserBehavior.ParseCommands(line.commandsString);
