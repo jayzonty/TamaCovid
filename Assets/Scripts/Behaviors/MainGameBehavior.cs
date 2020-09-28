@@ -79,9 +79,10 @@ namespace TamaCovid
         {
             if (CurrentState == State.ActivitiesSelection)
             {
-                dialogueSystem.ShowFirstPossibleDialogue(action.dialogues);
-
-                CurrentState = State.PerformAction;
+                if (dialogueSystem.PlayFirstPossibleDialogue(action.dialogues) != null)
+                {
+                    CurrentState = State.PerformAction;
+                }
             }
         }
 
@@ -161,9 +162,15 @@ namespace TamaCovid
                     {
                         if (dialoguesToPlay.Count > 0)
                         {
-                            Dialogue dialogue = dialoguesToPlay[0];
-                            dialoguesToPlay.RemoveAt(0);
-                            dialogueSystem.ShowDialogue(dialogue);
+                            Dialogue chosenDialogue = dialogueSystem.PlayFirstPossibleDialogue(dialoguesToPlay);
+                            if (chosenDialogue != null)
+                            {
+                                dialoguesToPlay.Remove(chosenDialogue);
+                            }
+                            else
+                            {
+                                CurrentState = State.ActivitiesSelection;
+                            }
                         }
                         else
                         {
@@ -180,7 +187,7 @@ namespace TamaCovid
                 case State.PerformAction:
                     if (dialogueSystem.IsDialogueFinished)
                     {
-                        dialogueSystem.ShowDialogue(null);
+                        dialogueSystem.PlayDialogue(null);
 
                         int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
                         if (day > 7)

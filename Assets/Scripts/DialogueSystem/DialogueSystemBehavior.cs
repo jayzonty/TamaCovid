@@ -21,12 +21,12 @@ namespace TamaCovid
         private ParserBehavior parserBehavior;
 
         /// <summary>
-        /// Current dialogue being shown
+        /// Current dialogue being stored.
         /// </summary>
         public Dialogue CurrentDialogue
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -44,53 +44,70 @@ namespace TamaCovid
         /// </summary>
         public bool IsDialogueFinished
         {
-            get
-            {
-                return (CurrentDialogue == null)
-                    || (CurrentDialogueLineIndex >= CurrentDialogue.lines.Count);
-            }
-        }
+            get;
+            private set;
+        } = true;
 
         /// <summary>
-        /// Show the provided dialogue.
+        /// Play the provided dialogue.
         /// </summary>
-        /// <param name="dialogue"></param>
-        public void ShowDialogue(Dialogue dialogue)
+        /// <param name="dialogue">The dialogue to play.</param>
+        /// <returns>True if the dialogue was played successfully. False otherwise.</returns>
+        public bool PlayDialogue(Dialogue dialogue)
         {
-            CurrentDialogue = dialogue;
-
-            if ((dialogue == null) || dialogue.lines.Count == 0)
+            if (dialogue == null)
             {
+                CurrentDialogue = null;
+                IsDialogueFinished = true;
+
                 if (textBox != null)
                 {
-                    textBox.SetText("");
+                    textBox.SetText("", 2);
                 }
 
-                return;
+                return false;
             }
 
+            if ((dialogue.lines.Count == 0) || !parserBehavior.ParseConditions(dialogue.conditionsString))
+            {
+                IsDialogueFinished = true;
+                return false;
+            }
+
+            CurrentDialogue = dialogue;
             CurrentDialogueLineIndex = -1;
-            ShowNextDialogueLine();
+            if (HasNextDialogueLine())
+            {
+                ShowNextDialogueLine();
+                IsDialogueFinished = false;
+
+                return true;
+            }
+            else
+            {
+                IsDialogueFinished = true;
+
+                return false;
+            }
         }
 
         /// <summary>
-        /// Show the first dialogue whose conditions are
+        /// Play the first dialogue whose conditions are
         /// satisfied.
         /// </summary>
         /// <param name="dialogueList">List of dialogues</param>
-        /// <returns>True if there was a dialogue whose conditions are satisfied. False otherwise.</returns>
-        public bool ShowFirstPossibleDialogue(List<Dialogue> dialogueList)
+        /// <returns>The dialogue played. If there were no dialogues whose conditions are satisfied, returns null.</returns>
+        public Dialogue PlayFirstPossibleDialogue(List<Dialogue> dialogueList)
         {
             foreach (Dialogue dialogue in dialogueList)
             {
-                if (parserBehavior.ParseConditions(dialogue.conditionsString))
+                if (PlayDialogue(dialogue))
                 {
-                    ShowDialogue(dialogue);
-                    return true;
+                    return dialogue;
                 }
             }
 
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -126,6 +143,7 @@ namespace TamaCovid
                     }
                     else
                     {
+                        IsDialogueFinished = true;
                         textBox.SetText(null, 2);
                     }
                 }
@@ -146,16 +164,38 @@ namespace TamaCovid
         /// </summary>
         private void ShowNextDialogueLine()
         {
-            while (++CurrentDialogueLineIndex < CurrentDialogue.lines.Count)
+            if (CurrentDialogue == null)
             {
-                Dialogue.Line line = CurrentDialogue.lines[CurrentDialogueLineIndex];
-                if (parserBehavior.ParseConditions(line.conditionsString))
+                return;
+            }
+
+            int nextLineIndex = GetNextDialogueLineIndex(CurrentDialogueLineIndex);
+            if (nextLineIndex != -1)
+            {
+                Dialogue.Line line = CurrentDialogue.lines[nextLineIndex];
+
+                if (textBox != null)
                 {
-                    textBox.SetText(line.message, 2);
-                    parserBehavior.ParseCommands(line.commandsString);
-                    break;
+                    textBox.SetText(line.message);
+                }
+
+                parserBehavior.ParseCommands(line.commandsString);
+
+                CurrentDialogueLineIndex = nextLineIndex;
+            }
+        }
+
+        private int GetNextDialogueLineIndex(int startingIndex)
+        {
+            for (int i = startingIndex + 1; i < CurrentDialogue.lines.Count; ++i)
+            {
+                if (parserBehavior.ParseConditions(CurrentDialogue.lines[i].conditionsString))
+                {
+                    return i;
                 }
             }
+
+            return -1;
         }
 
         /// <summary>
@@ -165,16 +205,7 @@ namespace TamaCovid
         /// <returns>True if there is a next dialogue line. False otherwise.</returns>
         private bool HasNextDialogueLine()
         {
-            for (int i = CurrentDialogueLineIndex; i < CurrentDialogue.lines.Count; ++i)
-            {
-                Dialogue.Line line = CurrentDialogue.lines[CurrentDialogueLineIndex];
-                if (parserBehavior.ParseConditions(line.conditionsString))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return GetNextDialogueLineIndex(CurrentDialogueLineIndex) != -1;
         }
     }
 }
