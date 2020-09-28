@@ -18,6 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You chatted with your friends/family.
-      commandsString: anxiety-5; energy-5
+      commandsString: anxiety-5 energy-5
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

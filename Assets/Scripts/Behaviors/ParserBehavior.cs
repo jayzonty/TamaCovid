@@ -31,7 +31,7 @@ namespace TamaCovid
             // TODO: Implement the commands
             // For now, split based on semi-colon.
             // StringSplitOptions.RemoveEmptyEntries is to account for multiple white spaces between commands.
-            string[] commands = commandsString.Split(new char[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] commands = commandsString.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string command in commands)
             {

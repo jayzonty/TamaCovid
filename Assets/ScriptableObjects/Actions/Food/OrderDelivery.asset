@@ -18,7 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You ordered food for delivery.
-      commandsString: food+20; money-250; time+10
+      commandsString: food+20 money-250 time+10
       conditionsString: 
     conditionsString: 
   enabledConditionString: money>=250

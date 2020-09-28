@@ -18,7 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You went out to buy groceries.
-      commandsString: food+30; money-200; energy-5; time+15
+      commandsString: food+30 money-200 energy-5 time+15
       conditionsString: 
     conditionsString: 
   enabledConditionString: money>=200 energy>=5

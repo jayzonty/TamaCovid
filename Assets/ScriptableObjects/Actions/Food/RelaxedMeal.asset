@@ -18,7 +18,7 @@ MonoBehaviour:
   dialogues:
   - lines:
     - message: You ate your meal as fast as possible.
-      commandsString: food+20; energy+10; time+30;
+      commandsString: food+20 energy+10 time+30
       conditionsString: 
     conditionsString: 
   enabledConditionString: food>=20

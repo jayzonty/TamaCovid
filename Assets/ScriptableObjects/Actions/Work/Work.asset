@@ -21,6 +21,7 @@ MonoBehaviour:
       commandsString: 
       conditionsString: 
     - message: You got money for your job!
-      commandsString: energy-5;money+10
+      commandsString: energy-5 money+10
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

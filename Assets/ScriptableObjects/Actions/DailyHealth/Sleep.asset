@@ -17,7 +17,18 @@ MonoBehaviour:
   description: Sleep for the day.
   dialogues:
   - lines:
-    - message: You slept.
-      commandsString: energy+20
+    - message: You were able to sleep soundly.
+      commandsString: energy+100 stress-50 time+480
+      conditionsString: 
+    conditionsString: '@rollSuccess(0.5)'
+  - lines:
+    - message: You had a restless sleep.
+      commandsString: energy+50 stress+20 time+300
+      conditionsString: 
+    conditionsString: '@rollSuccess(0.5)'
+  - lines:
+    - message: You overslept!
+      commandsString: energy+70 time+600
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

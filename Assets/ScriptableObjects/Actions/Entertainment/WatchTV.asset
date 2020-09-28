@@ -17,19 +17,37 @@ MonoBehaviour:
   description: Watch TV.
   dialogues:
   - lines:
-    - message: You watched TV.
+    - message: You decided to watch TV.
       commandsString: 
       conditionsString: 
-    - message: You got stressed due to watching TV.
-      commandsString: stress+10; energy-10
-      conditionsString: 
-    conditionsString: '@rollSuccess(0.5)'
-  - lines:
-    - message: You watched TV.
+    - message: A show is playing about a policeman chasing a thief through the market.
       commandsString: 
       conditionsString: 
-    - message: You got enjoyment out of watching TV.
-      commandsString: stress-10; energy-10
+    - message: As the policeman chases the thief, he crashed onto a stall, resulting
+        in the tomatoes being sold to be dropped onto the ground.
+      commandsString: 
+      conditionsString: 
+    - message: 'You: Those poor tomatoes...'
+      commandsString: 
+      conditionsString: 
+    - message: '*Commercial break*'
+      commandsString: 
+      conditionsString: 
+    - message: '"Are you stressed from being at home all the time? Why don''t you
+        try Yoga!'
+      commandsString: yogaAd=true
+      conditionsString: '@rollSuccess(0.25)'
+    - message: For just 15 minutes, you'll reduce a lot of stress!"
+      commandsString: 
+      conditionsString: yogaAd
+    - message: 'You: Maybe I should try Yoga sometime...'
+      commandsString: 
+      conditionsString: yogaAd
+    - message: You unlocked the "Yoga" action!
+      commandsString: sawYogaAd=true yogaAd=false
+      conditionsString: yogaAd
+    - message: 'You: I should stop watching now.'
+      commandsString: 
       conditionsString: 
     conditionsString: 
   enabledConditionString: 

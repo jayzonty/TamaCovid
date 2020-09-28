@@ -21,6 +21,7 @@ MonoBehaviour:
       commandsString: 
       conditionsString: 
     - message: You gained more money than usual, but you are also now more tired.
-      commandsString: energy-10; money+20
+      commandsString: energy-10 money+20
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 
