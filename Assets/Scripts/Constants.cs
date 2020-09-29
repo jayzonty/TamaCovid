@@ -51,5 +51,10 @@ namespace TamaCovid
         /// Constant for the name of the job type stat.
         /// </summary>
         public static string JOB_TYPE_STAT_NAME = "job";
+
+        /// <summary>
+        /// Constant for the name of the num infected stat.
+        /// </summary>
+        public static string NUM_INFECTED_STAT_NAME = "numInfected";
     }
 }

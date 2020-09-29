@@ -66,6 +66,11 @@ namespace TamaCovid
         private GameState gameState;
 
         /// <summary>
+        /// Current action being performed.
+        /// </summary>
+        private SO_Action currentAction;
+
+        /// <summary>
         /// Cached list of dialogues to play.
         /// (Used during CurrentState == State.StartOfDayDialogues)
         /// </summary>
@@ -82,6 +87,7 @@ namespace TamaCovid
                 if (dialogueSystem.PlayFirstPossibleDialogue(action.dialogues) != null)
                 {
                     CurrentState = State.PerformAction;
+                    currentAction = action;
                 }
             }
         }
@@ -188,6 +194,21 @@ namespace TamaCovid
                     if (dialogueSystem.IsDialogueFinished)
                     {
                         dialogueSystem.PlayDialogue(null);
+
+                        // Post-action covid check
+                        if (currentAction.covidRiskFactor > 0.0f)
+                        {
+                            float susceptability = 1.0f;
+                            if (gameState.HasMask)
+                            {
+                                susceptability = 0.2f;
+                            }
+
+                            COVIDInfectionModel.InfectionResult infectionResult =
+                                COVIDInfectionModel.SimulateInfectionFromAction(gameState.HasCovid, susceptability, currentAction.covidRiskFactor, currentAction.numPeopleInvolved);
+                            gameState.HasCovid = infectionResult.isInfected;
+                            gameState.SetStatValue(Constants.NUM_INFECTED_STAT_NAME, gameState.GetStatValue(Constants.NUM_INFECTED_STAT_NAME) + infectionResult.numInfected);
+                        }
 
                         int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
                         if (day > 7)

@@ -15,6 +15,8 @@ MonoBehaviour:
   category: Medical
   displayName: Get COVID-19 test
   description: Get tested for COVID-19.
+  covidRiskFactor: 0.25
+  numPeopleInvolved: 10
   dialogues:
   - lines:
     - message: You decided to get tested for COVID-19.
@@ -24,3 +26,4 @@ MonoBehaviour:
       commandsString: 
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

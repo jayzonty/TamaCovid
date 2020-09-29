@@ -15,9 +15,12 @@ MonoBehaviour:
   category: Medical
   displayName: Go to Hospital
   description: Go to the hospital.
+  covidRiskFactor: 0.5
+  numPeopleInvolved: 1000
   dialogues:
   - lines:
     - message: You went to the hospital.
       commandsString: 
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

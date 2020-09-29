@@ -15,9 +15,12 @@ MonoBehaviour:
   category: Entertainment
   displayName: Go to Party
   description: Go to a party
+  covidRiskFactor: 0.75
+  numPeopleInvolved: 50
   dialogues:
   - lines:
     - message: You went to a party.
       commandsString: 
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

@@ -33,6 +33,8 @@ namespace TamaCovid
 
             Data.AddStat(Constants.MEDICINE_STAT_NAME);
             Data.AddStat(Constants.JOB_TYPE_STAT_NAME);
+
+            Data.AddStat(Constants.NUM_INFECTED_STAT_NAME);
         }
 
         /// <summary>

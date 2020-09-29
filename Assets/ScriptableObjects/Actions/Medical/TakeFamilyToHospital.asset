@@ -15,9 +15,12 @@ MonoBehaviour:
   category: Medical
   displayName: Take Family Member to Hospital
   description: Take a sick family member to the hospital.
+  covidRiskFactor: 0.5
+  numPeopleInvolved: 1000
   dialogues:
   - lines:
     - message: You took a family member to the hospital.
       commandsString: 
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 

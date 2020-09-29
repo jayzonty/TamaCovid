@@ -26,8 +26,15 @@ namespace TamaCovid
         /// </summary>
         public string description;
 
-        // TODO: Add data regarding conditions for
-        // allowing the action to be performed.
+        /// <summary>
+        /// Risk factor of contracting/spreading COVID when performing this action.
+        /// </summary>
+        public float covidRiskFactor = 0.0f;
+
+        /// <summary>
+        /// Number of other people involved in this action.
+        /// </summary>
+        public int numPeopleInvolved = 0;
 
         /// <summary>
         /// List of dialogue lines for this particular action

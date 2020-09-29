@@ -15,9 +15,12 @@ MonoBehaviour:
   category: Medical
   displayName: Buy Mask
   description: Buy masks.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
   dialogues:
   - lines:
     - message: You bought masks for 10 monies.
-      commandsString: money-10
+      commandsString: money-10 hasMask=true
       conditionsString: 
     conditionsString: 
+  enabledConditionString: 
