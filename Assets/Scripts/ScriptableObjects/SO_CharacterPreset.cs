@@ -6,6 +6,7 @@ namespace TamaCovid
     /// Scriptable object containing data about a
     /// character preset.
     /// </summary>
+    [CreateAssetMenu(fileName = "New Preset", menuName = "TamaCovid/Character Preset")]
     public class SO_CharacterPreset : ScriptableObject
     {
         /// <summary>
@@ -16,6 +17,7 @@ namespace TamaCovid
         /// <summary>
         /// Description for the preset.
         /// </summary>
+        [TextArea]
         public string description = "Description";
 
         /// <summary>

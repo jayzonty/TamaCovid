@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01115fb28d24e4f40a5d7b954615598b, type: 3}
+  m_Name: LowerClass1
+  m_EditorClassIdentifier: 
+  presetName: Lower Class 1
+  description: 'You are a citizen living in the outskirts of the city.
+
+    You have
+    recently lost your job due to the COVID-19 pandemic, leaving you with just enough
+    money to pay rent and buy basic necessities.
+
+
+    Try to live the next 7 days
+    without contracting COVID-19, while trying to survive.'
+  startingMoney: 1500
+  startingJob: 0
+  hasCar: 0
+  isImmunocompromised: 0
+  hasDepression: 1
