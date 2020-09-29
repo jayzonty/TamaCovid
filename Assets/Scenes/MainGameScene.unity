@@ -1863,8 +1863,17 @@ MonoBehaviour:
   - lines:
     - message: Rent is due in 2 days. Make sure you have 500 monies by then.
       commandsString: 
-      conditionsString: 
-    conditionsString: day==1
+      conditionsString: day==1
+    - message: Rent is due in a day. Make sure you have 500 monies by then.
+      commandsString: 
+      conditionsString: day==2
+    - message: Rent is due. You paid 500 monies for rent.
+      commandsString: money-500 paidRent=true
+      conditionsString: day==3 money>=500
+    - message: Rent is due. You don't have enough money to pay rent.
+      commandsString: 
+      conditionsString: day==3 !paidRent
+    conditionsString: 
   - lines:
     - message: A family member is sick. You can either give medicine, or you can
         take him/her to the hospital.

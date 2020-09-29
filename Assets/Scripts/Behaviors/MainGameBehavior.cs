@@ -71,6 +71,11 @@ namespace TamaCovid
         private SO_Action currentAction;
 
         /// <summary>
+        /// Variable to track whether it's a new day or not.
+        /// </summary>
+        private bool isNewDay = false;
+
+        /// <summary>
         /// Cached list of dialogues to play.
         /// (Used during CurrentState == State.StartOfDayDialogues)
         /// </summary>
@@ -107,6 +112,24 @@ namespace TamaCovid
             {
                 gameState = gameStateBehavior.Data;
             }
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// when the script is enabled.
+        /// </summary>
+        private void OnEnable()
+        {
+            gameState.OnStatsChanged += StatValueChangedHandler;
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// when the script is disabled.
+        /// </summary>
+        private void OnDisable()
+        {
+            gameState.OnStatsChanged -= StatValueChangedHandler;
         }
 
         /// <summary>
@@ -159,6 +182,8 @@ namespace TamaCovid
                         }
                     }
 
+                    isNewDay = false;
+
                     CurrentState = State.StartOfDayDialogues;
 
                     break;
@@ -210,15 +235,22 @@ namespace TamaCovid
                             gameState.SetStatValue(Constants.NUM_INFECTED_STAT_NAME, gameState.GetStatValue(Constants.NUM_INFECTED_STAT_NAME) + infectionResult.numInfected);
                         }
 
-                        int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
-                        if (day > 7)
+                        if (isNewDay)
                         {
-                            // Once the player ends day 7, the game ends as well.
-                            CurrentState = State.GameEnd;
+                            int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
+                            if (day > 7)
+                            {
+                                // Once the player ends day 7, the game ends as well.
+                                CurrentState = State.GameEnd;
+                            }
+                            else
+                            {
+                                // Go to start of day sequence.
+                                CurrentState = State.StartOfDayEvents;
+                            }
                         }
                         else
                         {
-                            // Proceed as normal.
                             CurrentState = State.ActivitiesSelection;
                         }
                     }
@@ -241,6 +273,17 @@ namespace TamaCovid
         private bool IsProceedDialogButtonPressed()
         {
             return Input.GetKeyDown(KeyCode.Space);
+        }
+
+        private void StatValueChangedHandler(string statName, int oldValue, int newValue)
+        {
+            if (statName == Constants.DAY_STAT_NAME)
+            {
+                if (oldValue < newValue)
+                {
+                    isNewDay = true;
+                }
+            }
         }
     }
 }

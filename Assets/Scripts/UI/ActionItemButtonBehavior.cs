@@ -82,8 +82,8 @@ namespace TamaCovid
 
             if (gameState != null)
             {
-                gameState.OnFlagsChanged += StatsOrFlagsChangedHandler;
-                gameState.OnStatsChanged += StatsOrFlagsChangedHandler;
+                gameState.OnFlagsChanged += FlagChangedHandler;
+                gameState.OnStatsChanged += StatsChangedHandler;
             }
         }
 
@@ -100,8 +100,8 @@ namespace TamaCovid
 
             if (gameState != null)
             {
-                gameState.OnFlagsChanged -= StatsOrFlagsChangedHandler;
-                gameState.OnStatsChanged -= StatsOrFlagsChangedHandler;
+                gameState.OnFlagsChanged -= FlagChangedHandler;
+                gameState.OnStatsChanged -= StatsChangedHandler;
             }
         }
 
@@ -125,7 +125,15 @@ namespace TamaCovid
             }
         }
 
-        private void StatsOrFlagsChangedHandler(string flagName)
+        private void StatsChangedHandler(string statName, int oldValue, int newValue)
+        {
+            if ((button != null) && (parserBehavior != null))
+            {
+                button.interactable = parserBehavior.ParseConditions(actionData.enabledConditionString);
+            }
+        }
+
+        private void FlagChangedHandler(string flagName)
         {
             if ((button != null) && (parserBehavior != null))
             {

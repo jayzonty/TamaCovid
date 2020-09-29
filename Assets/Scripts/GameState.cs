@@ -8,7 +8,7 @@ namespace TamaCovid
     /// </summary>
     public class GameState
     {
-        public delegate void StatsChangedDelegate(string statName);
+        public delegate void StatsChangedDelegate(string statName, int oldValue, int newValue);
         public event StatsChangedDelegate OnStatsChanged;
 
         public delegate void FlagsChangedDelegate(string flagName);
@@ -126,8 +126,6 @@ namespace TamaCovid
             if (!statValues.ContainsKey(statName))
             {
                 statValues.Add(statName, new StatValue(initialValue, minValue, maxValue));
-
-                OnStatsChanged?.Invoke(statName);
             }
         }
 
@@ -139,7 +137,6 @@ namespace TamaCovid
         public bool RemoveStat(string statName)
         {
             bool ret = statValues.Remove(statName);
-            OnStatsChanged?.Invoke(statName);
             return ret;
         }
 
@@ -186,8 +183,13 @@ namespace TamaCovid
         {
             if (statValues.ContainsKey(statName))
             {
-                statValues[statName].Value = val;
-                OnStatsChanged?.Invoke(statName);
+                int oldValue = statValues[statName].Value;
+                if (oldValue != val)
+                {
+                    statValues[statName].Value = val;
+                    OnStatsChanged?.Invoke(statName, oldValue, val);
+                }
+                
                 return true;
             }
 
@@ -201,16 +203,20 @@ namespace TamaCovid
         /// <param name="value">New value of the flag</param>
         public void SetFlagValue(string flagName, bool value)
         {
-            if (value)
+            bool oldValue = flags.Contains(flagName);
+            if (oldValue != value)
             {
-                flags.Add(flagName);
-            }
-            else
-            {
-                flags.Remove(flagName);
-            }
+                if (value)
+                {
+                    flags.Add(flagName);
+                }
+                else
+                {
+                    flags.Remove(flagName);
+                }
 
-            OnFlagsChanged?.Invoke(flagName);
+                OnFlagsChanged?.Invoke(flagName);
+            }
         }
 
         /// <summary>
