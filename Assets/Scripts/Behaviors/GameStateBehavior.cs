@@ -17,6 +17,21 @@ namespace TamaCovid
         } = new GameState();
 
         /// <summary>
+        /// Initialize the game state data from the given character preset.
+        /// </summary>
+        /// <param name="characterPreset">Character preset.</param>
+        public void InitializeGameStateFromPreset(SO_CharacterPreset characterPreset)
+        {
+            if (characterPreset != null)
+            {
+                Data.SetStatValue(Constants.MONEY_STAT_NAME, characterPreset.startingMoney);
+                Data.SetStatValue(Constants.JOB_TYPE_STAT_NAME, characterPreset.startingJob);
+
+                Data.SetFlagValue("hasDepression", characterPreset.hasDepression);
+            }
+        }
+
+        /// <summary>
         /// Unity callback function that is called
         /// when the game object is created.
         /// </summary>

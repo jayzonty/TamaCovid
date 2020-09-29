@@ -51,7 +51,7 @@ namespace TamaCovid
             // For now, just switch to the main game scene.
             // Might also want to have a constant variable
             // somewhere for the scene name of the main game.
-            SceneManager.LoadScene("MainGameScene");
+            SceneManager.LoadScene("CharacterIntroScene");
         }
     }
 }
