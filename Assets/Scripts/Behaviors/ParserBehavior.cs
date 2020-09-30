@@ -70,13 +70,23 @@ namespace TamaCovid
                             string a = tokens[0].Trim();
                             string b = tokens[1].Trim();
 
-                            // First try if a is a stat name. If it is, apply the
-                            // operation accordingly.
-                            int statVal;
-                            if (gameStateBehavior.Data.TryGetStatValue(a, out statVal))
+                            if (b == "true" || b == "false")
                             {
-                                int intVal = 0;
-                                int.TryParse(b, out intVal);
+                                bool val = bool.Parse(b);
+                                gameStateBehavior.Data.SetFlagValue(a, val);
+                            }
+                            else
+                            {
+                                // First try if a is a stat name. If it is, apply the
+                                // operation accordingly.
+                                int statVal;
+                                if (!gameStateBehavior.Data.TryGetStatValue(a, out statVal))
+                                {
+                                    gameStateBehavior.Data.AddStat(a);
+                                    statVal = 0;
+                                }
+
+                                int intVal = int.Parse(b);
 
                                 if (op == '=') { statVal = intVal; }
                                 else if (op == '+') { statVal += intVal; }
@@ -96,16 +106,6 @@ namespace TamaCovid
                                 }
 
                                 gameStateBehavior.Data.SetStatValue(a, statVal);
-                            }
-                            // If it's not a stat name, assume it's a flag, and
-                            // set the value accordingly.
-                            else
-                            {
-                                bool flagVal = false;
-                                if (bool.TryParse(b, out flagVal))
-                                {
-                                    gameStateBehavior.Data.SetFlagValue(a, flagVal);
-                                }
                             }
                         }
                     }
@@ -128,7 +128,6 @@ namespace TamaCovid
             }
 
             conditionsString = conditionsString.Trim();
-
             if (conditionsString.Contains(" "))
             {
                 string[] expressions = conditionsString.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
@@ -179,9 +178,17 @@ namespace TamaCovid
                     bool lessThan = false, greaterThan = false, equal = false;
                     if (conditionsString.Contains("==") || conditionsString.Contains("!="))
                     {
-                        aLength = conditionsString.IndexOf('=');
+                        if (conditionsString.Contains("=="))
+                        {
+                            aLength = conditionsString.IndexOf('=');
+                            equal = conditionsString.Contains("==");
+                        }
+                        else
+                        {
+                            aLength = conditionsString.IndexOf('!');
+                        }
+                        
                         bStart = aLength + 2;
-                        equal = conditionsString.Contains("==");
                     }
                     else if (conditionsString.Contains("<")) // a < b, a <= b
                     {
