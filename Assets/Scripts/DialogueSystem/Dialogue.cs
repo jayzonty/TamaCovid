@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using UnityEngine;
+
 namespace TamaCovid
 {
     [System.Serializable]
@@ -15,30 +17,31 @@ namespace TamaCovid
             /// <summary>
             /// Message to be displayed for this dialogue line
             /// </summary>
+            [TextArea]
             public string message;
 
             /// <summary>
             /// String containing the commands to run
             /// upon reaching this dialogue line.
             /// </summary>
-            public string commandsString;
+            public string commands;
 
             /// <summary>
             /// String containing the conditions to show
             /// this particular line.
             /// </summary>
-            public string conditionsString;
+            public string messageCondition;
         }
-
-        /// <summary>
-        /// List of dialogue lines
-        /// </summary>
-        public List<Line> lines;
 
         /// <summary>
         /// String containing the conditions to show
         /// this particular dialogue.
         /// </summary>
-        public string conditionsString;
+        public string dialogueCondition;
+
+        /// <summary>
+        /// List of dialogue lines
+        /// </summary>
+        public List<Line> lines;
     }
 }

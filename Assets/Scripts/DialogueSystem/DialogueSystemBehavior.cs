@@ -68,7 +68,7 @@ namespace TamaCovid
                 return false;
             }
 
-            if ((dialogue.lines.Count == 0) || !parserBehavior.ParseConditions(dialogue.conditionsString))
+            if ((dialogue.lines.Count == 0) || !parserBehavior.ParseConditions(dialogue.dialogueCondition))
             {
                 IsDialogueFinished = true;
                 return false;
@@ -179,7 +179,7 @@ namespace TamaCovid
                     textBox.SetText(line.message, 2);
                 }
 
-                parserBehavior.ParseCommands(line.commandsString);
+                parserBehavior.ParseCommands(line.commands);
 
                 CurrentDialogueLineIndex = nextLineIndex;
             }
@@ -196,7 +196,7 @@ namespace TamaCovid
             {
                 for (int i = startingIndex + 1; i < CurrentDialogue.lines.Count; ++i)
                 {
-                    if (parserBehavior.ParseConditions(CurrentDialogue.lines[i].conditionsString))
+                    if (parserBehavior.ParseConditions(CurrentDialogue.lines[i].messageCondition))
                     {
                         return i;
                     }

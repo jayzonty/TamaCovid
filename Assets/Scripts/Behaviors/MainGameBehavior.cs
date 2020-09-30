@@ -165,7 +165,7 @@ namespace TamaCovid
                     }
                     foreach (Dialogue startOfDayDialogue in startOfDayDialogues)
                     {
-                        if (parserBehavior.ParseConditions(startOfDayDialogue.conditionsString))
+                        if (parserBehavior.ParseConditions(startOfDayDialogue.dialogueCondition))
                         {
                             dialoguesToPlay.Add(startOfDayDialogue);
                         }

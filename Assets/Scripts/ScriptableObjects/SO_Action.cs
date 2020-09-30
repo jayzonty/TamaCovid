@@ -24,6 +24,7 @@ namespace TamaCovid
         /// <summary>
         /// Description of the action
         /// </summary>
+        [TextArea]
         public string description;
 
         /// <summary>
