@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TamaCovid
 {
@@ -63,7 +64,7 @@ namespace TamaCovid
         /// <summary>
         /// Reference to the game state data.
         /// </summary>
-        private GameState gameState;
+        private GameStateBehavior gameStateBehavior;
 
         /// <summary>
         /// Current action being performed.
@@ -107,11 +108,7 @@ namespace TamaCovid
 
             parserBehavior = GameObject.FindObjectOfType<ParserBehavior>();
 
-            GameStateBehavior gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
-            if (gameStateBehavior != null)
-            {
-                gameState = gameStateBehavior.Data;
-            }
+            gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
         }
 
         /// <summary>
@@ -120,7 +117,7 @@ namespace TamaCovid
         /// </summary>
         private void OnEnable()
         {
-            gameState.OnStatsChanged += StatValueChangedHandler;
+            gameStateBehavior.Data.OnStatsChanged += StatValueChangedHandler;
         }
 
         /// <summary>
@@ -129,7 +126,7 @@ namespace TamaCovid
         /// </summary>
         private void OnDisable()
         {
-            gameState.OnStatsChanged -= StatValueChangedHandler;
+            gameStateBehavior.Data.OnStatsChanged -= StatValueChangedHandler;
         }
 
         /// <summary>
@@ -150,14 +147,6 @@ namespace TamaCovid
             switch (CurrentState)
             {
                 case State.Setup:
-                    // Setup stat values of player. In the future, set this
-                    // based on some sort of preset.
-                    gameState.SetStatValue(Constants.DAY_STAT_NAME, 1);
-
-                    gameState.SetStatValue(Constants.MONEY_STAT_NAME, 500);
-
-                    gameState.HasDepression = Random.value <= 0.25f;
-
                     CurrentState = State.StartOfDayEvents;
 
                     break;
@@ -182,8 +171,6 @@ namespace TamaCovid
                         }
                     }
 
-                    isNewDay = false;
-
                     CurrentState = State.StartOfDayDialogues;
 
                     break;
@@ -191,7 +178,11 @@ namespace TamaCovid
                 case State.StartOfDayDialogues:
                     if (dialogueSystem.IsDialogueFinished)
                     {
-                        if (dialoguesToPlay.Count > 0)
+                        if (gameStateBehavior.IsGameEnd)
+                        {
+                            CurrentState = State.GameEnd;
+                        }
+                        else if (dialoguesToPlay.Count > 0)
                         {
                             Dialogue chosenDialogue = dialogueSystem.PlayFirstPossibleDialogue(dialoguesToPlay);
                             if (chosenDialogue != null)
@@ -209,6 +200,8 @@ namespace TamaCovid
                         }
                     }
 
+                    isNewDay = false;
+
                     break;
 
                 case State.ActivitiesSelection:
@@ -224,20 +217,32 @@ namespace TamaCovid
                         if (currentAction.covidRiskFactor > 0.0f)
                         {
                             float susceptability = 1.0f;
-                            if (gameState.HasMask)
+                            if (gameStateBehavior.Data.HasMask)
                             {
                                 susceptability = 0.2f;
                             }
 
+                            bool hasCOVIDOriginally = gameStateBehavior.Data.HasCovid;
                             COVIDInfectionModel.InfectionResult infectionResult =
-                                COVIDInfectionModel.SimulateInfectionFromAction(gameState.HasCovid, susceptability, currentAction.covidRiskFactor, currentAction.numPeopleInvolved);
-                            gameState.HasCovid = infectionResult.isInfected;
-                            gameState.SetStatValue(Constants.NUM_INFECTED_STAT_NAME, gameState.GetStatValue(Constants.NUM_INFECTED_STAT_NAME) + infectionResult.numInfected);
+                                COVIDInfectionModel.SimulateInfectionFromAction(gameStateBehavior.Data.HasCovid, susceptability, currentAction.covidRiskFactor, currentAction.numPeopleInvolved);
+                            gameStateBehavior.Data.HasCovid = infectionResult.isInfected;
+                            gameStateBehavior.Data.SetStatValue(Constants.NUM_INFECTED_STAT_NAME, gameStateBehavior.Data.GetStatValue(Constants.NUM_INFECTED_STAT_NAME) + infectionResult.numInfected);
+                            
+                            // If the player didn't have COVID originally, but contracted it in the current action,
+                            // store it as a way to report what caused the player to get COVID at the end of the game.
+                            if (infectionResult.isInfected && !hasCOVIDOriginally)
+                            {
+                                gameStateBehavior.actionThatCauseCOVID = currentAction;
+                            }
                         }
 
-                        if (isNewDay)
+                        if (gameStateBehavior.IsGameEnd)
                         {
-                            int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
+                            CurrentState = State.GameEnd;
+                        }
+                        else if (isNewDay)
+                        {
+                            int day = gameStateBehavior.Data.GetStatValue(Constants.DAY_STAT_NAME);
                             if (day > 7)
                             {
                                 // Once the player ends day 7, the game ends as well.
@@ -258,6 +263,7 @@ namespace TamaCovid
                     break;
 
                 case State.GameEnd:
+                    SceneManager.LoadScene("GameEndScene");
                     break;
 
                 default: // Should not happen

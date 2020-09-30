@@ -10,7 +10,7 @@ namespace TamaCovid
     /// </summary>
     public class ParserBehavior : MonoBehaviour
     {
-        private GameState gameState;
+        private GameStateBehavior gameStateBehavior;
 
         /// <summary>
         /// Parse the commands laid out in the provided string.
@@ -41,6 +41,15 @@ namespace TamaCovid
                     if (command.StartsWith("@"))
                     {
                         // Special commands to be added in the future
+                        string commandName;
+                        string[] arguments;
+                        DeconstructCommandString(command, out commandName, out arguments);
+
+                        if (commandName == "gameEnd")
+                        {
+                            gameStateBehavior.IsGameEnd = true;
+                            gameStateBehavior.EndingNumber = int.Parse(arguments[0]);
+                        }
                     }
                     else
                     {
@@ -64,7 +73,7 @@ namespace TamaCovid
                             // First try if a is a stat name. If it is, apply the
                             // operation accordingly.
                             int statVal;
-                            if (gameState.TryGetStatValue(a, out statVal))
+                            if (gameStateBehavior.Data.TryGetStatValue(a, out statVal))
                             {
                                 int intVal = 0;
                                 int.TryParse(b, out intVal);
@@ -77,16 +86,16 @@ namespace TamaCovid
                                 // time does not exceed 24 hours (1440 minutes).
                                 if (a == Constants.TIME_STAT_NAME)
                                 {
-                                    int day = gameState.GetStatValue(Constants.DAY_STAT_NAME);
+                                    int day = gameStateBehavior.Data.GetStatValue(Constants.DAY_STAT_NAME);
                                     while (statVal >= 1440)
                                     {
                                         statVal -= 1440;
                                         ++day;
                                     }
-                                    gameState.SetStatValue(Constants.DAY_STAT_NAME, day);
+                                    gameStateBehavior.Data.SetStatValue(Constants.DAY_STAT_NAME, day);
                                 }
 
-                                gameState.SetStatValue(a, statVal);
+                                gameStateBehavior.Data.SetStatValue(a, statVal);
                             }
                             // If it's not a stat name, assume it's a flag, and
                             // set the value accordingly.
@@ -95,7 +104,7 @@ namespace TamaCovid
                                 bool flagVal = false;
                                 if (bool.TryParse(b, out flagVal))
                                 {
-                                    gameState.SetFlagValue(a, flagVal);
+                                    gameStateBehavior.Data.SetFlagValue(a, flagVal);
                                 }
                             }
                         }
@@ -151,19 +160,13 @@ namespace TamaCovid
                 if (conditionsString.StartsWith("@"))
                 {
                     // Special commands (@command(...))
-
-                    int openParenthesisIndex = conditionsString.IndexOf('(');
-                    int closedParenthesisIndex = conditionsString.IndexOf(')');
-
-                    int commandNameLength = openParenthesisIndex - 1;
-                    string commandName = conditionsString.Substring(1, commandNameLength);
-
-                    int argumentsStringLength = closedParenthesisIndex - openParenthesisIndex - 1;
-                    string argumentsString = conditionsString.Substring(openParenthesisIndex + 1, argumentsStringLength);
+                    string commandName;
+                    string[] arguments;
+                    DeconstructCommandString(conditionsString, out commandName, out arguments);
 
                     if (commandName == "rollSuccess")
                     {
-                        return RollSuccessCommand(float.Parse(argumentsString));
+                        return RollSuccessCommand(float.Parse(arguments[0]));
                     }
                     else
                     {
@@ -205,7 +208,7 @@ namespace TamaCovid
 
                     string statName = conditionsString.Substring(0, aLength);
                     int statValue;
-                    if (gameState.TryGetStatValue(statName, out statValue))
+                    if (gameStateBehavior.Data.TryGetStatValue(statName, out statValue))
                     {
                         int val;
                         if (int.TryParse(conditionsString.Substring(bStart), out val))
@@ -248,7 +251,7 @@ namespace TamaCovid
                         conditionsString = conditionsString.Substring(1);
                     }
 
-                    bool flagValue = gameState.GetFlagValue(conditionsString);
+                    bool flagValue = gameStateBehavior.Data.GetFlagValue(conditionsString);
                     return flagValue != negate;
                 }
             }
@@ -260,11 +263,7 @@ namespace TamaCovid
         /// </summary>
         private void Awake()
         {
-            GameStateBehavior gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
-            if (gameStateBehavior != null)
-            {
-                gameState = gameStateBehavior.Data;
-            }
+            gameStateBehavior = GameObject.FindObjectOfType<GameStateBehavior>();
         }
 
         /// <summary>
@@ -277,6 +276,35 @@ namespace TamaCovid
         {
             float roll = Random.Range(0.0f, 1.0f);
             return roll <= odds;
+        }
+
+        /// <summary>
+        /// Deconstruct a expression to the command name and the arguments.
+        /// </summary>
+        /// <param name="expression">Original expression</param>
+        /// <param name="commandName">Output variable that contains the command name</param>
+        /// <param name="arguments">Output array that contains the arguments</param>
+        /// <returns></returns>
+        private bool DeconstructCommandString(string expression, out string commandName, out string[] arguments)
+        {
+            if (!expression.StartsWith("@"))
+            {
+                commandName = "";
+                arguments = null;
+                return false;
+            }
+
+            int openParenthesisIndex = expression.IndexOf('(');
+            int closedParenthesisIndex = expression.IndexOf(')');
+
+            int commandNameLength = openParenthesisIndex - 1;
+            commandName = expression.Substring(1, commandNameLength);
+
+            int argumentsStringLength = closedParenthesisIndex - openParenthesisIndex - 1;
+            string argumentsString = expression.Substring(openParenthesisIndex + 1, argumentsStringLength);
+            arguments = argumentsString.Split(',');
+
+            return true;
         }
     }
 }

@@ -141,6 +141,14 @@ namespace TamaCovid
         }
 
         /// <summary>
+        /// Remove all stats from the list of stats we are keeping track of
+        /// </summary>
+        public void RemoveAllStats()
+        {
+            statValues.Clear();
+        }
+
+        /// <summary>
         /// Get the value of the given stat name.
         /// </summary>
         /// <param name="statName">Name of the stat</param>
@@ -227,6 +235,14 @@ namespace TamaCovid
         public bool GetFlagValue(string flagName)
         {
             return flags.Contains(flagName);
+        }
+
+        /// <summary>
+        /// Reset all the flags.
+        /// </summary>
+        public void ResetAllFlags()
+        {
+            flags.Clear();
         }
     }
 }

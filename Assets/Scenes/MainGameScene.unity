@@ -1857,8 +1857,6 @@ MonoBehaviour:
   textBox: {fileID: 837420625}
   startOfDayEvents:
   - {fileID: 11400000, guid: e297eeb494217cc47ad8a86687c86385, type: 2}
-  - {fileID: 11400000, guid: 15ff077d95cce374a8af3f290ac017ba, type: 2}
-  - {fileID: 11400000, guid: 18c5aaca6396eab4da904560ff0d6ba6, type: 2}
   startOfDayDialogues:
   - lines:
     - message: Rent is due in 2 days. Make sure you have 500 monies by then.
@@ -1870,8 +1868,9 @@ MonoBehaviour:
     - message: Rent is due. You paid 500 monies for rent.
       commandsString: money-500 paidRent=true
       conditionsString: day==3 money>=500
-    - message: Rent is due. You don't have enough money to pay rent.
-      commandsString: 
+    - message: Rent is due. You don't have enough money to pay rent. As such, you
+        were evicted from your house.
+      commandsString: '@gameEnd(1)'
       conditionsString: day==3 !paidRent
     conditionsString: 
   - lines:

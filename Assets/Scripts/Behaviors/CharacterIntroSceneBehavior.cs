@@ -21,6 +21,8 @@ namespace TamaCovid
 
         private void Start()
         {
+            gameStateBehavior.ResetStatsAndFlags();
+
             // Randomly choose a character preset to start with
             int randomIndex = Random.Range(0, characterPresets.Count);
             SO_CharacterPreset characterPreset = characterPresets[randomIndex];

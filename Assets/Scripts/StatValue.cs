@@ -100,9 +100,9 @@ namespace TamaCovid
         /// <param name="initialValue">Initial value of the stat.</param>
         public StatValue(int initialValue = 0, int minValue = 0, int maxValue = int.MaxValue)
         {
-            Value = initialValue;
             MinValue = minValue;
             MaxValue = maxValue;
+            Value = initialValue;
         }
     }
 }
