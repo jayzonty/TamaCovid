@@ -102,7 +102,10 @@ namespace TamaCovid
 
             if (hungerText != null)
             {
-                hungerText.text = "Hunger: " + gameState.GetStatValue(Constants.HUNGER_STAT_NAME);
+                int hunger = gameState.GetStatValue(Constants.HUNGER_STAT_NAME);
+                int hungerState = hunger / 20;
+                hungerState = Constants.HUNGER_STATES.Length - hungerState - 1;
+                hungerText.text = "Hunger: " + Constants.HUNGER_STATES[hungerState]; 
             }
 
             if (stressText != null)
@@ -117,7 +120,18 @@ namespace TamaCovid
 
             if (jobText != null)
             {
-                jobText.text = "Job: " + gameState.GetStatValue(Constants.JOB_TYPE_STAT_NAME);
+                string text = "Job: ";
+                int jobType = gameState.GetStatValue(Constants.JOB_TYPE_STAT_NAME);
+                text += Constants.JOB_NAMES[jobType];
+
+                if (jobType == 5)
+                {
+                    int timeWorked = gameState.GetStatValue("timeWorked");
+                    int timeLeft = 960 - timeWorked;
+                    text += "\nWork hours left: " + (timeLeft / 60) + " hours.";
+                }
+
+                jobText.text = text;
             }
 
             if (statusText != null)

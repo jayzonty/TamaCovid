@@ -27,7 +27,7 @@ MonoBehaviour:
     Try to live the next 7 days without
     contracting COVID-19, while trying to survive.'
   startingMoney: 3000
-  startingJob: 2
+  startingJob: 1
   hasCar: 0
   isImmunocompromised: 0
   hasDepression: 1

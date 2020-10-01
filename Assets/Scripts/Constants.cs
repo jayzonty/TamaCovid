@@ -56,5 +56,11 @@ namespace TamaCovid
         /// Constant for the name of the num infected stat.
         /// </summary>
         public static string NUM_INFECTED_STAT_NAME = "numInfected";
+
+        public static readonly string[] JOB_NAMES = 
+            { "Unemployed", "Full-time Work-from-home", "Full-time On-site", "Part-time Work-from-home", "Part-time On-site", "Freelance" };
+
+        public static readonly string[] HUNGER_STATES =
+            { "Very Hungry", "Hungry", "Neutral", "Full", "Very full" };
     }
 }
