@@ -19,6 +19,8 @@ namespace TamaCovid
         /// </summary>
         public TextBoxBehavior textBox;
 
+        public StartOfDayNotifsWindowBehavior startOfDayNotifsWindow;
+
         /// <summary>
         /// Start of day events
         /// </summary>
@@ -136,6 +138,11 @@ namespace TamaCovid
         private void Start()
         {
             CurrentState = State.Setup;
+
+            if (startOfDayNotifsWindow != null)
+            {
+                startOfDayNotifsWindow.Hide();
+            }
         }
 
         /// <summary>
@@ -163,6 +170,7 @@ namespace TamaCovid
                             }
                         }
                     }
+
                     foreach (Dialogue startOfDayDialogue in startOfDayDialogues)
                     {
                         if (parserBehavior.ParseConditions(startOfDayDialogue.dialogueCondition))
@@ -171,12 +179,19 @@ namespace TamaCovid
                         }
                     }
 
+                    startOfDayNotifsWindow.ShowDialogues(dialoguesToPlay);
+
                     CurrentState = State.StartOfDayDialogues;
 
                     break;
 
                 case State.StartOfDayDialogues:
-                    if (dialogueSystem.IsDialogueFinished)
+                    if (!startOfDayNotifsWindow.IsOpen)
+                    {
+                        CurrentState = State.ActivitiesSelection;
+                    }
+
+                    /*if (dialogueSystem.IsDialogueFinished)
                     {
                         if (gameStateBehavior.IsGameEnd)
                         {
@@ -198,7 +213,7 @@ namespace TamaCovid
                         {
                             CurrentState = State.ActivitiesSelection;
                         }
-                    }
+                    }*/
 
                     isNewDay = false;
 
