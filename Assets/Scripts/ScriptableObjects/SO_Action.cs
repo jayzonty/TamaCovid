@@ -38,14 +38,14 @@ namespace TamaCovid
         public int numPeopleInvolved = 0;
 
         /// <summary>
-        /// List of dialogue lines for this particular action
-        /// </summary>
-        public List<Dialogue> dialogues;
-
-        /// <summary>
         /// String containing the conditions for this
         /// action to be enabled.
         /// </summary>
         public string enabledConditionString;
+
+        /// <summary>
+        /// List of dialogue lines for this particular action
+        /// </summary>
+        public List<Dialogue> dialogues;
     }
 }

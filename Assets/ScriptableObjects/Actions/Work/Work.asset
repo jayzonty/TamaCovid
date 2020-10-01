@@ -14,16 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Work
   displayName: Work
-  description: Go to work, or work on your job.
+  description: Work for 4 hours. A full-time job needs 8 hours of work, a part-time
+    job needs 4 hours, and a freelance job has a specified number of required hours.
   covidRiskFactor: 0.5
   numPeopleInvolved: 30
+  enabledConditionString: job!=0 !workDone
   dialogues:
-  - lines:
-    - message: Working...
-      commandsString: 
-      conditionsString: 
-    - message: You got money for your job!
-      commandsString: energy-5 money+10
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+  - dialogueCondition: hasDepression @rollSuccess(0.25)
+    lines:
+    - message: 'You: I really don''t feel like doing anything now.'
+      commands: 
+      messageCondition: 
+    - message: You spend the next few minutes staring blankly.
+      commands: time+30 energy-5
+      messageCondition: 
+  - dialogueCondition: energy>0
+    lines:
+    - message: You work for 4 hours.
+      commands: time+240 timeWorked+240
+      messageCondition: 
+    - message: 'You: Think I need a break.'
+      commands: energy-40 hunger+30 money+350
+      messageCondition: job==1|job==2 timeWorked!=480
+    - message: 'You: Done for the day! Or am I?'
+      commands: workDone=true timeWorked=0 energy-40 hunger+30 money+350
+      messageCondition: job==1|job==2 timeWorked==480
+    - message: 'You: Whew. I suppose I can call it a day now.'
+      commands: workDone=true timeWorked=0 energy-40 hunger+30 money+350
+      messageCondition: job==3|job==4 timeWorked==240
+    - message: 'You: I think I need a break.'
+      commands: energy-40 hunger+30
+      messageCondition: job==5 timeWorked!=960
+    - message: 'You: Finished that job, finally!'
+      commands: job=0 workDone=true timeWorked=0 money+1000
+      messageCondition: job==5 timeWorked==960
+    - message: 'You: Also, I think I''m starting to feel sick. I might have worked
+        too hard.'
+      commands: isSick=true
+      messageCondition: '!isSick energy<10 @rollSuccess(0.25)'
+  - dialogueCondition: 
+    lines:
+    - message: 'You: I''m too tired to work. I really need to sleep.'
+      commands: 
+      messageCondition: 

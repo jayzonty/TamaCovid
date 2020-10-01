@@ -14,11 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Social
   displayName: Chat with Friends/Family
-  description: Chat with friends or family
-  dialogues:
-  - lines:
-    - message: You chatted with your friends/family.
-      commandsString: anxiety-5 energy-5
-      conditionsString: 
-    conditionsString: 
+  description: Chat with your friends/family. Relieves a bit of stress.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
   enabledConditionString: 
+  dialogues:
+  - dialogueCondition: energy==0
+    lines:
+    - message: 'You: I''m too tired to chat with anyone right now. I really need
+        to sleep soon.'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: You decide to chat with your friends and family through FaceMask messenger.
+      commands: 
+      messageCondition: 
+    - message: You feel a bit more relieved talking to someone.
+      commands: energy-5 time+30 hunger+5 stress-5
+      messageCondition: 

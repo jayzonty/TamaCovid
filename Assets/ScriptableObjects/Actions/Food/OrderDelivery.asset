@@ -14,13 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Food
   displayName: Order Delivery
-  description: Order food via delivery.
+  description: Have food delivered via GraspFood. Costs 250 monies.
   covidRiskFactor: 0.1
   numPeopleInvolved: 1
-  dialogues:
-  - lines:
-    - message: You ordered food for delivery.
-      commandsString: food+20 money-250 time+10
-      conditionsString: 
-    conditionsString: 
   enabledConditionString: money>=250
+  dialogues:
+  - dialogueCondition: 
+    lines:
+    - message: You decide to get some food delivered via GraspFood.
+      commands: foodDecided=false
+      messageCondition: 
+    - message: 'You: Oohh, steak sounds nice.'
+      commands: foodDecided=true
+      messageCondition: '@rollSuccess(0.5)'
+    - message: 'You: I feel like eating something healthy right now. I''ll go with
+        some salad and baked salmon sushi.'
+      commands: foodDecided=true
+      messageCondition: '!foodDecided @rollSuccess(0.5)'
+    - message: 'You: I''m craving pizza!'
+      commands: 
+      messageCondition: '!foodDecided'
+    - message: '*15 minutes later* Ding dong!'
+      commands: time+15
+      messageCondition: 
+    - message: 'Deliveryman: Food delivery! That would be 250 monies.'
+      commands: food+1 money-250
+      messageCondition: 
+    - message: 'You: Thank you!'
+      commands: energy-5
+      messageCondition: 

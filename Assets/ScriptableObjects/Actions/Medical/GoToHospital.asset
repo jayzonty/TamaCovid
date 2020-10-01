@@ -14,13 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Medical
   displayName: Go to Hospital
-  description: Go to the hospital.
+  description: Go to the nearest hospital to consult with a doctor. Higher chance
+    to cure your sickness when drinking the prescribed medicine, but high risk of
+    contracting COVID-19 due to going out of the house.
   covidRiskFactor: 0.5
-  numPeopleInvolved: 1000
+  numPeopleInvolved: 300
+  enabledConditionString: isSick
   dialogues:
-  - lines:
-    - message: You went to the hospital.
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+  - dialogueCondition: 
+    lines:
+    - message: 'You: *cough* *wheeze* I think I need a doctor.'
+      commands: 
+      messageCondition: 
+    - message: You decide to go to the hospital and ask a doctor about your symptoms.
+      commands: 
+      messageCondition: 
+    - message: The doctor examines your throat and listens to your lungs. She then
+        proceeds to write a prescription.
+      commands: 
+      messageCondition: 
+    - message: 'Doctor: You can get these from the hospital pharmacy. If your situation
+        persists, I suggest you undergo a COVID test. Take care now!'
+      commands: 
+      messageCondition: 
+    - message: You drop by the pharmacy to buy the prescribed medicine and go home.
+      commands: time+120 energy-25 stress-5 money-1000 medicine+1
+      messageCondition: 

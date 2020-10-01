@@ -14,13 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Food
   displayName: Order Groceries Online
-  description: Have groceries delivered to your house.
+  description: Order groceries online via GraspMart. Costs 400 monies.
   covidRiskFactor: 0.1
   numPeopleInvolved: 1
+  enabledConditionString: money>=400
   dialogues:
-  - lines:
-    - message: You went out to buy groceries.
-      commandsString: food+30 money-200 energy-5 time+15
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: money>=200 energy>=5
+  - dialogueCondition: 
+    lines:
+    - message: You whip out your phone and open the GraspMart delivery app.
+      commands: 
+      messageCondition: 
+    - message: 'GraspMart: Thank you for buying your groceries from GraspMart, the
+        number one online shop in the country. What would you like to buy?'
+      commands: 
+      messageCondition: 
+    - message: 'You add your usual groceries to your online cart. Your screen then
+        flashes the amount: 300 monies + delivery fee of 100 monies.'
+      commands: 
+      messageCondition: 
+    - message: You transfer the amount to GraspMart and wait for the delivery to
+        arrive.
+      commands: money-400
+      messageCondition: 
+    - message: '*30 minutes later* Ding dong!'
+      commands: time+30
+      messageCondition: 
+    - message: 'Deliveryman: Hi! Here are your groceries!'
+      commands: 
+      messageCondition: 
+    - message: 'You: Thank you!'
+      commands: 
+      messageCondition: 
+    - message: You store the groceries in the fridge.
+      commands: food+3 energy-5
+      messageCondition: 

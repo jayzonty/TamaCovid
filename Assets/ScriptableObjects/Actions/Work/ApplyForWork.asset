@@ -14,13 +14,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Work
   displayName: Apply for Work
-  description: Try to apply for work.
+  description: Look for a job online.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
+  enabledConditionString: job==0
   dialogues:
-  - lines:
-    - message: Applying for work...
-      commandsString: 
-      conditionsString: 
-    - message: Result of job application to be announced in the future. :)
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
+  - dialogueCondition: hasDepression @rollSuccess(0.25)
+    lines:
+    - message: 'You: I don''t think I''m in the right mental state right now to look
+        for a job.'
+      commands: 
+      messageCondition: 
+    - message: You spend the next few minutes just staring blankly.
+      commands: time+30 energy-5
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: 'You: I have to pay my bills somehow. I should look for a job.'
+      commands: 
+      messageCondition: 
+    - message: 'You: Found a full-time job! And I can work from home at that!'
+      commands: job=1 time+60 energy-10 workDone=false timeWorked=0
+      messageCondition: job==0 @rollSuccess(0.5)
+    - message: 'You: Found a full-time job! I am required to show up at the office,
+        though.'
+      commands: job=2 time+60 energy-10 workDone=false timeWorked=0
+      messageCondition: job==0 @rollSuccess(0.5)
+    - message: 'You: Got a job now. Not full-time, but at least I can work from home.'
+      commands: job=3 time+60 energy-10 workDone=false timeWorked=0
+      messageCondition: job==0 @rollSuccess(0.5)
+    - message: 'You: Part-time and I have to go to the office? *sigh* Better than
+        nothing, I guess.'
+      commands: job=4 time+60 energy-10 workDone=false timeWorked=0
+      messageCondition: job==0 @rollSuccess(0.5)
+    - message: 'You: Guess I should try my luck at a different time in a different
+        place.'
+      commands: stress+10 time+60 energy-10
+      messageCondition: job==0

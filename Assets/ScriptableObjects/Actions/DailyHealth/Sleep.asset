@@ -15,20 +15,38 @@ MonoBehaviour:
   category: Daily Health
   displayName: Sleep
   description: Sleep for the day.
-  dialogues:
-  - lines:
-    - message: You were able to sleep soundly.
-      commandsString: energy+100 stress-50 time+480
-      conditionsString: 
-    conditionsString: '@rollSuccess(0.5)'
-  - lines:
-    - message: You had a restless sleep.
-      commandsString: energy+50 stress+20 time+300
-      conditionsString: 
-    conditionsString: '@rollSuccess(0.5)'
-  - lines:
-    - message: You overslept!
-      commandsString: energy+70 time+600
-      conditionsString: 
-    conditionsString: 
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
   enabledConditionString: 
+  dialogues:
+  - dialogueCondition: energy==0 @rollSuccess(0.25)
+    lines:
+    - message: You were so tired last night that you overslept!
+      commands: energy+70 time+600 hunger+30 exerciseFatigue=false workDone=false
+        overtime=false
+      messageCondition: 
+    - message: 'You: (Oh god, I overslept. I feel so groggy now.)'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: stress<=30|@rollSuccess(0.75)
+    lines:
+    - message: You were able to sleep soundly.
+      commands: 
+      messageCondition: 
+    - message: 'You: (Ahhh. Nothing better than a good night sleep.)'
+      commands: energy+100 stress-50 time+480 hunger+20 exerciseFatigue=false workDone=false
+        overtime=false
+      messageCondition: 
+    - message: After a good night sleep, your sickness disappeared, and now you feel
+        better.
+      commands: isSick=false
+      messageCondition: isSick @rollSuccess(0.25)
+  - dialogueCondition: 
+    lines:
+    - message: You weren't able to sleep very well.
+      commands: energy+50 stress-10 time+300 hunger+10 exerciseFatigue=false workDone=false
+        overtime=false
+      messageCondition: 
+    - message: 'You: *yawn* (I want to sleep more...)'
+      commands: 
+      messageCondition: 

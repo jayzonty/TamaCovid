@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: FamilyMemberCovidEvent
   m_EditorClassIdentifier: 
   eventBranches:
-  - triggerCondition: '@rollSuccess(0.1)'
-    eventAction: isFamilyMemberCovid=true
+  - triggerCondition: isFamilyMemberSick @rollSuccess(0.25)
+    eventAction: famHasCovid=true

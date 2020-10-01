@@ -14,40 +14,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Entertainment
   displayName: Watch TV
-  description: Watch TV.
+  description: Watch the TV for the latest news and shows. Relieves a bit of stress.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
+  enabledConditionString: 
   dialogues:
-  - lines:
-    - message: You decided to watch TV.
-      commandsString: 
-      conditionsString: 
+  - dialogueCondition: energy==0
+    lines:
+    - message: 'You: I''m too tired to watch TV right now. I really need to sleep
+        soon.'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: You decide to watch TV.
+      commands: 
+      messageCondition: 
     - message: A show is playing about a policeman chasing a thief through the market.
-      commandsString: 
-      conditionsString: 
+      commands: 
+      messageCondition: 
     - message: As the policeman chases the thief, he crashed onto a stall, resulting
         in the tomatoes being sold to be dropped onto the ground.
-      commandsString: 
-      conditionsString: 
+      commands: 
+      messageCondition: 
     - message: 'You: Those poor tomatoes...'
-      commandsString: 
-      conditionsString: 
+      commands: 
+      messageCondition: 
     - message: '*Commercial break*'
-      commandsString: 
-      conditionsString: 
+      commands: 
+      messageCondition: 
     - message: '"Are you stressed from being at home all the time? Why don''t you
         try Yoga!'
-      commandsString: yogaAd=true
-      conditionsString: '@rollSuccess(0.25)'
+      commands: yogaAd=true
+      messageCondition: '!sawYogaAd @rollSuccess(0.25)'
     - message: For just 15 minutes, you'll reduce a lot of stress!"
-      commandsString: 
-      conditionsString: yogaAd
+      commands: 
+      messageCondition: yogaAd
     - message: 'You: Maybe I should try Yoga sometime...'
-      commandsString: 
-      conditionsString: yogaAd
+      commands: 
+      messageCondition: yogaAd
     - message: You unlocked the "Yoga" action!
-      commandsString: sawYogaAd=true yogaAd=false
-      conditionsString: yogaAd
+      commands: sawYogaAd=true yogaAd=false
+      messageCondition: yogaAd
     - message: 'You: I should stop watching now.'
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+      commands: energy-5 stress-5 time+30 hunger+5
+      messageCondition: 

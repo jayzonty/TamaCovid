@@ -14,11 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Daily Health
   displayName: Yoga
-  description: Do yoga.
-  dialogues:
-  - lines:
-    - message: You decided to do some Yoga.
-      commandsString: stress-10 energy-10
-      conditionsString: 
-    conditionsString: 
+  description: Do yoga. Relieves a bit of stress.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
   enabledConditionString: sawYogaAd
+  dialogues:
+  - dialogueCondition: energy==0
+    lines:
+    - message: 'You: I''m too tired to do yoga right now. I really need to sleep
+        soon.'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: You decide to do some yoga, since you heard that it helps alleviate
+        some stress.
+      commands: 
+      messageCondition: 
+    - message: You feel a bit refreshed!
+      commands: energy-10 stress-15 time+30 hunger+15
+      messageCondition: 
+    - message: 'You: Wow, this feels nice. I should do this again sometime.'
+      commands: 
+      messageCondition: 

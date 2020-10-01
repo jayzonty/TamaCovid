@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Medical
   displayName: Buy Mask
-  description: Buy masks.
-  covidRiskFactor: 0
-  numPeopleInvolved: 0
+  description: Go out to buy a mask. Costs 50 monies, and a mask reduces your susceptibility
+    to COVID-19. Moderate risk of contracting COVID-19 due to going out of the house.
+  covidRiskFactor: 0.25
+  numPeopleInvolved: 50
+  enabledConditionString: '!hasMask'
   dialogues:
-  - lines:
-    - message: You bought masks for 10 monies.
-      commandsString: money-10 hasMask=true
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+  - dialogueCondition: 
+    lines:
+    - message: You go to the nearest pharmacy and purchase a mask.
+      commands: hasMask=true time+15 energy-5 money-50
+      messageCondition: 

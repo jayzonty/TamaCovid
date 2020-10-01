@@ -14,11 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Food
   displayName: Relaxed Meal
-  description: Eat a meal in a relaxed pace.
+  description: Eat a meal in a relaxed pace. Costs 1 food.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
+  enabledConditionString: food>0 hunger>0
   dialogues:
-  - lines:
-    - message: You ate your meal as fast as possible.
-      commandsString: food+20 energy+10 time+30
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: food>=20
+  - dialogueCondition: 
+    lines:
+    - message: You got some food from the fridge, and slowly ate it while wondering
+        when the pandemic will end.
+      commands: 
+      messageCondition: 
+    - message: 'You: *gulp* Ahh... that was a good meal.'
+      commands: food-1 energy+10 stress-5 time+30 hunger-20
+      messageCondition: 

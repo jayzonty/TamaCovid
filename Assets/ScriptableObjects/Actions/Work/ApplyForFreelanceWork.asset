@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b5f303c611d74b91b8d8aca4d3970, type: 3}
+  m_Name: ApplyForFreelanceWork
+  m_EditorClassIdentifier: 
+  category: Work
+  displayName: Look for Freelance Work
+  description: Look for freelance work online.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
+  enabledConditionString: job==0
+  dialogues:
+  - dialogueCondition: hasDepression @rollSuccess(0.25)
+    lines:
+    - message: 'You: I don''t think I''m in the right mental state right now to look
+        for a job.'
+      commands: 
+      messageCondition: 
+    - message: You spend the next few minutes just staring blankly.
+      commands: time+30 energy-5
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: You clap your hands and browse the Internet for projects with open
+        positions.
+      commands: 
+      messageCondition: 
+    - message: 'You: Hmm... this project looks interesting...'
+      commands: 
+      messageCondition: 
+    - message: 'You: Nice, they accepted me! I got a job now!'
+      commands: time+60 energy-10 job=5 workDone=false
+      messageCondition: '@rollSuccess(0.5)'
+    - message: 'You: It says I need to work for a total of 16 hours before receiving
+        my salary. Gotta keep that in mind.'
+      commands: 
+      messageCondition: job==5
+    - message: 'You: Didn''t get to land a job. Guess I should try my luck next time.'
+      commands: time+60 energy-10
+      messageCondition: job==0

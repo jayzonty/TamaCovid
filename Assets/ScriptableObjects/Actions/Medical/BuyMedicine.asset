@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Medical
   displayName: Buy Medicine
-  description: Buy medicine.
+  description: Go out to the nearest pharmacy to buy medicine. One medicine costs
+    400 monies. Moderate risk of contracting COVID-19 due to going out of the house.
+  covidRiskFactor: 0.25
+  numPeopleInvolved: 50
+  enabledConditionString: money>=400
   dialogues:
-  - lines:
-    - message: You bought medicine for 5 monies.
-      commandsString: money-5
-      conditionsString: 
-    conditionsString: 
+  - dialogueCondition: 
+    lines:
+    - message: You go to the nearest pharmacy and purchase some medicine.
+      commands: medicine+1 time+30 energy-5 money-400
+      messageCondition: 

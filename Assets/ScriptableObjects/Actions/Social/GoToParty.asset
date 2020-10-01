@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b5f303c611d74b91b8d8aca4d3970, type: 3}
+  m_Name: GoToParty
+  m_EditorClassIdentifier: 
+  category: Entertainment
+  displayName: Go to Party
+  description: Go to a party with your friends. Relieves a lot of stress, but has
+    a high risk of contracting or spreading COVID-19.
+  covidRiskFactor: 0.75
+  numPeopleInvolved: 50
+  enabledConditionString: 
+  dialogues:
+  - dialogueCondition: energy==0
+    lines:
+    - message: 'You: I really want to go to a party, but I''m too tired right now.
+        Maybe next time when I''m more well-rested.'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: 'You: (I''m so tired of being stuck at home.)'
+      commands: 
+      messageCondition: 
+    - message: 'You: Let''s call up some friends and go to a party or something.'
+      commands: 
+      messageCondition: 
+    - message: You pull out your phone and start messaging your friends.
+      commands: 
+      messageCondition: 
+    - message: 'You: Hey! I''m so bored. Wanna go have fun somewhere?'
+      commands: 
+      messageCondition: 
+    - message: 'Friend: Hey! Sure, I''m down for some partying! My place?'
+      commands: 
+      messageCondition: 
+    - message: 'You: Yeah! Let''s go!'
+      commands: 
+      messageCondition: 
+    - message: You go to your friend's place and partied hard.
+      commands: 
+      messageCondition: 
+    - message: After partying for a while, you decide to go home.
+      commands: 
+      messageCondition: 
+    - message: 'You: Now that was fun!'
+      commands: time+180 stress-30 energy-40 hunger+20
+      messageCondition: 

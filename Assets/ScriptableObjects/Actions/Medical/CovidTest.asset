@@ -14,16 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Medical
   displayName: Get COVID-19 test
-  description: Get tested for COVID-19.
+  description: Go to the hospital to get tested for COVID-19. Costs 2000 monies.
+    Moderate risk of contracting COVID-19 due to going out of the house.
   covidRiskFactor: 0.25
-  numPeopleInvolved: 10
+  numPeopleInvolved: 50
+  enabledConditionString: money>=2000
   dialogues:
-  - lines:
-    - message: You decided to get tested for COVID-19.
-      commandsString: 
-      conditionsString: 
-    - message: Find out the results soon!
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+  - dialogueCondition: 
+    lines:
+    - message: COVID has been in your mind because you don't know if it's in your
+        lungs. You decide to put an end to the paranoia once and for all.
+      commands: 
+      messageCondition: 
+    - message: 'You: Better safe than sorry.'
+      commands: 
+      messageCondition: 
+    - message: You go to the hospital and ask for a COVID test. A nurse gets your
+        throat and nose samples.
+      commands: money-2000
+      messageCondition: 
+    - message: Teary-eyed from the invasion of your nose, you go home and wait for
+        the email containing your test results.
+      commands: time+60 energy-10 stress+10
+      messageCondition: 
+    - message: '*2 hours later* You get your COVID test results via email. You open
+        the attachment with a mix of dread and optimism...'
+      commands: time+120
+      messageCondition: 
+    - message: 'COVID-19 Test Result: Positive'
+      commands: 
+      messageCondition: hasCovid
+    - message: You stare at the test results in disbelief.
+      commands: 
+      messageCondition: hasCovid
+    - message: 'You: What do I do now?'
+      commands: stress+25
+      messageCondition: hasCovid
+    - message: 'COVID-19 Test Result: Negative'
+      commands: 
+      messageCondition: '!hasCovid'
+    - message: 'You: Oh, thank the universe!'
+      commands: stress-25
+      messageCondition: '!hasCovid'

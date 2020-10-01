@@ -14,10 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Medical
   displayName: Drink Medicine
-  description: Drink medicine.
+  description: Drink the medicine that you purchased. Chance to cure your sickness.
+    Requires 1 medicine.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
+  enabledConditionString: isSick medicine>0
   dialogues:
-  - lines:
-    - message: You drank medicine. You feel better now.
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
+  - dialogueCondition: 
+    lines:
+    - message: 'You: *gulp* Let''s hope that does the trick. *cough*'
+      commands: 
+      messageCondition: 
+    - message: You instantly feel better. Your coughing stops, and the whistle in
+        your breath goes away.
+      commands: isSick=false stress-10
+      messageCondition: '@rollSuccess(0.5)'
+    - message: 'You: *cough* *wheeze* I don''t think that did anything.'
+      commands: stress+10
+      messageCondition: isSick

@@ -550,7 +550,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: categoryName
@@ -559,7 +559,15 @@ PrefabInstance:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[0]
       value: 
+      objectReference: {fileID: 11400000, guid: a5a171a06bd231447951fe3809bbdcd3, type: 2}
+    - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
+      propertyPath: actionList.Array.data[1]
+      value: 
       objectReference: {fileID: 11400000, guid: 7fd91d9cc57d2e2418c847bb2fd9aad7, type: 2}
+    - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
+      propertyPath: actionList.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b449473b7274714c82657acfad8c4d7, type: 2}
     - target: {fileID: 6885934338037371101, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: m_Text
       value: Social
@@ -896,7 +904,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: categoryName
@@ -914,6 +922,10 @@ PrefabInstance:
       propertyPath: actionList.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 638b9c5cf7a55d846aca268960d87e94, type: 2}
+    - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
+      propertyPath: actionList.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 83c0d862ae04eed4b9a1b44645db2428, type: 2}
     - target: {fileID: 6885934338037371101, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: m_Text
       value: Work
@@ -1857,28 +1869,33 @@ MonoBehaviour:
   textBox: {fileID: 837420625}
   startOfDayEvents:
   - {fileID: 11400000, guid: e297eeb494217cc47ad8a86687c86385, type: 2}
+  - {fileID: 11400000, guid: 15ff077d95cce374a8af3f290ac017ba, type: 2}
   startOfDayDialogues:
-  - lines:
+  - dialogueCondition: day==2
+    lines:
     - message: Rent is due in 2 days. Make sure you have 500 monies by then.
-      commandsString: 
-      conditionsString: day==1
+      commands: 
+      messageCondition: 
+  - dialogueCondition: day==3
+    lines:
     - message: Rent is due in a day. Make sure you have 500 monies by then.
-      commandsString: 
-      conditionsString: day==2
+      commands: 
+      messageCondition: 
+  - dialogueCondition: day==4
+    lines:
     - message: Rent is due. You paid 500 monies for rent.
-      commandsString: money-500 paidRent=true
-      conditionsString: day==3 money>=500
+      commands: paidRent=true money-500
+      messageCondition: money>=500
     - message: Rent is due. You don't have enough money to pay rent. As such, you
         were evicted from your house.
-      commandsString: '@gameEnd(1)'
-      conditionsString: day==3 !paidRent
-    conditionsString: 
-  - lines:
-    - message: A family member is sick. You can either give medicine, or you can
-        take him/her to the hospital.
-      commandsString: 
-      conditionsString: 
-    conditionsString: isFamilyMemberSick
+      commands: '@gameEnd(1)'
+      messageCondition: '!paidRent'
+  - dialogueCondition: isFamilyMemberSick !familyMemberSickNotif
+    lines:
+    - message: You have been notified that a family member got sick. You can take
+        them to the hospital to ease your worries.
+      commands: familyMemberSickNotif=true
+      messageCondition: 
 --- !u!4 &1337986159
 Transform:
   m_ObjectHideFlags: 0
@@ -2740,7 +2757,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: categoryName
@@ -2749,11 +2766,11 @@ PrefabInstance:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: a5a171a06bd231447951fe3809bbdcd3, type: 2}
+      objectReference: {fileID: 11400000, guid: cf5d35ea51dfcaa44acf5c38970794b8, type: 2}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 7b449473b7274714c82657acfad8c4d7, type: 2}
+      objectReference: {fileID: 11400000, guid: 90efdc24a30915c41815e657b2acb940, type: 2}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.data[2]
       value: 
@@ -3226,7 +3243,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: actionList.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1513838144706225424, guid: 210734400b8a7f342b0cba7d08a57b0d, type: 3}
       propertyPath: categoryName

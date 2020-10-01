@@ -14,16 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Work
   displayName: Overtime
-  description: Work overtime.
+  description: Go for overtime. Only applicable for full-time and part-time job.
   covidRiskFactor: 0.5
   numPeopleInvolved: 30
+  enabledConditionString: job!=0 job!=5 workDone !overtime
   dialogues:
-  - lines:
-    - message: You decided to work overtime...
-      commandsString: 
-      conditionsString: 
-    - message: You gained more money than usual, but you are also now more tired.
-      commandsString: energy-10 money+20
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+  - dialogueCondition: energy==0
+    lines:
+    - message: 'You: I''m really tired right now. I should really sleep soon.'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: '!isSick|@rollSuccess(0.5)'
+    lines:
+    - message: 'You: Nah, I have to finish these reports by today.'
+      commands: overtime=true energy-10 hunger+5 money+25
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: 'You: I really don''t feel well right now. I should probably just
+        rest.'
+      commands: 
+      messageCondition: 

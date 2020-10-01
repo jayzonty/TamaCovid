@@ -14,13 +14,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Food
   displayName: Buy Groceries
-  description: Go out of the house to buy groceries.
+  description: Go out to the nearest supermarket to buy groceries. Costs 250 monies.
   covidRiskFactor: 0.5
   numPeopleInvolved: 100
+  enabledConditionString: money>=250
   dialogues:
-  - lines:
-    - message: You went out to buy groceries.
-      commandsString: food+30 money-100 energy-20 time+30
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: money>=100 energy>=20
+  - dialogueCondition: energy==0
+    lines:
+    - message: I'm too tired to step out of the house. I should really sleep.
+      commands: 
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: You step out of the house to buy groceries from the nearby supermarket.
+      commands: 
+      messageCondition: 
+    - message: You browse through the aisles for necessary supplies and nice things
+        to eat.
+      commands: 
+      messageCondition: 
+    - message: 'You: Vegetables, fruits, chips, toilet paper, alcohol... Yeah, I
+        think this should be enough.'
+      commands: 
+      messageCondition: 
+    - message: You go up to the cashier to check out your items.
+      commands: 
+      messageCondition: 
+    - message: The cashier smiles at you and proceeds to ring up your items.
+      commands: 
+      messageCondition: 
+    - message: 'Cashier: That would be 250 monies.'
+      commands: 
+      messageCondition: 
+    - message: You pay 250 monies to the cashier.
+      commands: money-250
+      messageCondition: 
+    - message: You leave the supermarket and go home.
+      commands: 
+      messageCondition: 
+    - message: 'You: Ahhh... that was tiring. Let''s put these in the fridge.'
+      commands: food+3 energy-20 time+60 hunger+10
+      messageCondition: 

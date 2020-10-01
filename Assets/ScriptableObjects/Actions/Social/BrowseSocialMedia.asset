@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b5f303c611d74b91b8d8aca4d3970, type: 3}
+  m_Name: BrowseSocialMedia
+  m_EditorClassIdentifier: 
+  category: Entertainment
+  displayName: Browse Social Media
+  description: Browse through FaceMask to see the latest trends, news, and memes.
+    Can either relieve or increase stress.
+  covidRiskFactor: 0
+  numPeopleInvolved: 0
+  enabledConditionString: 
+  dialogues:
+  - dialogueCondition: energy==0
+    lines:
+    - message: 'You: I''m too tired to look at FaceMask right now. I really need
+        to sleep soon.'
+      commands: 
+      messageCondition: 
+  - dialogueCondition: 
+    lines:
+    - message: You decide to browse FaceMask to see what's new with the world.
+      commands: 
+      messageCondition: 
+    - message: 'You: Awww look at those doggos. So cuuuute. Much wow.'
+      commands: stress-5 happySocialMedia=true
+      messageCondition: '@rollSuccess(0.5)'
+    - message: 'You: Things are so scary nowadays.'
+      commands: stress+5
+      messageCondition: '!happySocialMedia'
+    - message: 'You: Wow, look at the time. I should stop now.'
+      commands: energy-5 time+30 hunger+5
+      messageCondition: 

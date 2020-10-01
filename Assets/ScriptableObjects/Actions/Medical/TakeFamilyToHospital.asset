@@ -14,13 +14,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: Medical
   displayName: Take Family Member to Hospital
-  description: Take a sick family member to the hospital.
+  description: Take a family member to the hospital. Lessens stress due to worrying
+    about your family member, but higher risk of contracting COVID-19. Costs 1000
+    monies.
   covidRiskFactor: 0.5
   numPeopleInvolved: 1000
+  enabledConditionString: isFamilyMemberSick
   dialogues:
-  - lines:
-    - message: You took a family member to the hospital.
-      commandsString: 
-      conditionsString: 
-    conditionsString: 
-  enabledConditionString: 
+  - dialogueCondition: 
+    lines:
+    - message: You take your family member to the hospital to consult with a doctor
+        about their illness.
+      commands: 
+      messageCondition: 
+    - message: Since you're already in the hospital anyway, you convince your family
+        member to get a COVID test. You accompany him/her to the hospital.
+      commands: 
+      messageCondition: 
+    - message: Your family member gets out of the testing room, teary-eyed.
+      commands: 
+      messageCondition: 
+    - message: 'You: Guess it hurt a bit, huh?'
+      commands: time+60 energy-10 stress+10
+      messageCondition: 
+    - message: 'Family Member: *sniff* Yeah, those people on the news weren''t kidding.'
+      commands: 
+      messageCondition: 
+    - message: You take your family member home and wait for the test results.
+      commands: 
+      messageCondition: 
+    - message: '*2 hours later* Your family member gets an email. His/her test results
+        are here.'
+      commands: time+120 isFamilyMemberSick=false
+      messageCondition: 
+    - message: 'COVID-19 Test Result: Positive'
+      commands: 
+      messageCondition: famHasCovid
+    - message: You move to hug your family member. Your family member abruptly steps
+        away, and you think better of it.
+      commands: 
+      messageCondition: famHasCovid
+    - message: 'You: What do we do now?'
+      commands: stress+25
+      messageCondition: famHasCovid
+    - message: 'COVID-19 Test Result: Negative'
+      commands: 
+      messageCondition: '!famHasCovid'
+    - message: 'You: Whew. That nose invasion was worth it after all.'
+      commands: stress-25
+      messageCondition: '!famHasCovid'
