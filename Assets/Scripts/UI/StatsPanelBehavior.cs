@@ -105,6 +105,7 @@ namespace TamaCovid
                 int hunger = gameState.GetStatValue(Constants.HUNGER_STAT_NAME);
                 int hungerState = hunger / 20;
                 hungerState = Constants.HUNGER_STATES.Length - hungerState - 1;
+                hungerState = Mathf.Max(hungerState, 0);
                 hungerText.text = "Hunger: " + Constants.HUNGER_STATES[hungerState]; 
             }
 
