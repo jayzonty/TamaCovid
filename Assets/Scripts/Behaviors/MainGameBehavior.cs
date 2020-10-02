@@ -79,12 +79,6 @@ namespace TamaCovid
         private bool isNewDay = false;
 
         /// <summary>
-        /// Cached list of dialogues to play.
-        /// (Used during CurrentState == State.StartOfDayDialogues)
-        /// </summary>
-        private List<Dialogue> dialoguesToPlay = new List<Dialogue>();
-
-        /// <summary>
         /// Perform the provided action.
         /// </summary>
         /// <param name="action">Data related to the action being performed.</param>
@@ -171,6 +165,7 @@ namespace TamaCovid
                         }
                     }
 
+                    List<Dialogue> dialoguesToPlay = new List<Dialogue>();
                     foreach (Dialogue startOfDayDialogue in startOfDayDialogues)
                     {
                         if (parserBehavior.ParseConditions(startOfDayDialogue.dialogueCondition))
