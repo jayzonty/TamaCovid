@@ -81,7 +81,7 @@ namespace TamaCovid
             if (dayAndTimeText != null)
             {
                 string text = "Day: " + gameState.GetStatValue(Constants.DAY_STAT_NAME);
-                text += " " + RawMinutesToFormattedTimeString(gameState.GetStatValue(Constants.TIME_STAT_NAME));
+                text += "  Time: " + RawMinutesToFormattedTimeString(gameState.GetStatValue(Constants.TIME_STAT_NAME));
                 dayAndTimeText.text = text;
             }
 
@@ -97,7 +97,7 @@ namespace TamaCovid
 
             if (foodText != null)
             {
-                foodText.text = "Food: " + gameState.GetStatValue(Constants.FOOD_STAT_NAME);
+                foodText.text = "Meals: " + gameState.GetStatValue(Constants.FOOD_STAT_NAME);
             }
 
             if (hungerText != null)
@@ -129,6 +129,12 @@ namespace TamaCovid
                 {
                     int timeWorked = gameState.GetStatValue("timeWorked");
                     int timeLeft = 960 - timeWorked;
+                    text += "\nWork hours left: " + (timeLeft / 60) + " hours.";
+                }
+                else if (jobType != 0)
+                {
+                    int timeWorked = gameState.GetStatValue("timeWorked");
+                    int timeLeft = 480 - timeWorked;
                     text += "\nWork hours left: " + (timeLeft / 60) + " hours.";
                 }
 
