@@ -146,10 +146,16 @@ namespace TamaCovid
                 {
                     text += "Has Depression\n";
                 }
+
                 if (gameState.HasMask)
                 {
                     text += "Has Mask\n";
                 }
+                else
+                {
+                    text += "No Mask\n";
+                }
+
                 if (gameState.GetFlagValue("isSick"))
                 {
                     text += "Sick\n";
