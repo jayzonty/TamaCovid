@@ -38,15 +38,13 @@ namespace TamaCovid
                 {
                     if (!string.IsNullOrEmpty(tokens[1])) // action name
                     {
-                        string assetSearchPath = "Assets/ScriptableObjects/Actions/" + tokens[0];
-                        if (System.IO.Directory.Exists(assetSearchPath))
+                        string actionCategoryPath = "Assets/ScriptableObjects/Actions/" + tokens[0];
+                        if (System.IO.Directory.Exists(actionCategoryPath))
                         {
-                            string[] assets = AssetDatabase.FindAssets(tokens[1], new[] { assetSearchPath });
-                            if (assets.Length > 0)
+                            string actionAssetPath = actionCategoryPath + "/" + tokens[1] + ".asset";
+                            currentAction = AssetDatabase.LoadAssetAtPath<SO_Action>(actionAssetPath);
+                            if (currentAction != null)
                             {
-                                string assetPath = AssetDatabase.GUIDToAssetPath(assets[0]);
-                                currentAction = AssetDatabase.LoadAssetAtPath<SO_Action>(assetPath);
-
                                 currentAction.dialogues.Clear();
                             }
                         }
@@ -57,12 +55,12 @@ namespace TamaCovid
                             currentAction.name = tokens[1];
                             currentAction.dialogues = new List<Dialogue>();
 
-                            if (!System.IO.Directory.Exists(assetSearchPath))
+                            if (!System.IO.Directory.Exists(actionCategoryPath))
                             {
-                                System.IO.Directory.CreateDirectory(assetSearchPath);
+                                System.IO.Directory.CreateDirectory(actionCategoryPath);
                             }
 
-                            AssetDatabase.CreateAsset(currentAction, assetSearchPath + "/" + tokens[1] + ".asset");
+                            AssetDatabase.CreateAsset(currentAction, actionCategoryPath + "/" + tokens[1] + ".asset");
                         }
 
                         EditorUtility.SetDirty(currentAction);
