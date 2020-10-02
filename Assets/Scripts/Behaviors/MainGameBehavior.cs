@@ -215,6 +215,7 @@ namespace TamaCovid
                     break;
 
                 case State.ActivitiesSelection:
+                    textBox.SetProceedIndicatorVisible(false);
                     textBox.SetText("Choose activities for the day.", 0);
                     break;
 

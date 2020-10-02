@@ -21,6 +21,11 @@ namespace TamaCovid
         private ParserBehavior parserBehavior;
 
         /// <summary>
+        /// Was the textbox clicked?
+        /// </summary>
+        private bool textBoxClicked = false;
+
+        /// <summary>
         /// Current dialogue being stored.
         /// </summary>
         public Dialogue CurrentDialogue
@@ -121,6 +126,30 @@ namespace TamaCovid
 
         /// <summary>
         /// Unity callback function that is called
+        /// when the script is enabled.
+        /// </summary>
+        private void OnEnable()
+        {
+            if (textBox != null)
+            {
+                textBox.onClicked.AddListener(HandleTextBoxClicked);
+            }
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
+        /// when the script is disabled.
+        /// </summary>
+        private void OnDisable()
+        {
+            if (textBox != null)
+            {
+                textBox.onClicked.RemoveListener(HandleTextBoxClicked);
+            }
+        }
+
+        /// <summary>
+        /// Unity callback function that is called
         /// before the first update call.
         /// </summary>
         private void Start()
@@ -145,9 +174,12 @@ namespace TamaCovid
                     {
                         IsDialogueFinished = true;
                         textBox.SetText(null, 2);
+                        textBox.SetProceedIndicatorVisible(false);
                     }
                 }
             }
+
+            textBoxClicked = false;
         }
 
         /// <summary>
@@ -156,7 +188,7 @@ namespace TamaCovid
         /// <returns>True if the player pressed the next dialogue button during the current frame.</returns>
         private bool IsProceedDialogButtonPressed()
         {
-            return Input.GetKeyDown(KeyCode.Space);
+            return Input.GetKeyDown(KeyCode.Space) || textBoxClicked;
         }
 
         /// <summary>
@@ -176,6 +208,7 @@ namespace TamaCovid
 
                 if (textBox != null)
                 {
+                    textBox.SetProceedIndicatorVisible(true);
                     textBox.SetText(line.message, 2);
                 }
 
@@ -214,6 +247,14 @@ namespace TamaCovid
         private bool HasNextDialogueLine()
         {
             return GetNextDialogueLineIndex(CurrentDialogueLineIndex) != -1;
+        }
+
+        /// <summary>
+        /// Handler function for when the text box was clicked.
+        /// </summary>
+        private void HandleTextBoxClicked()
+        {
+            textBoxClicked = true;
         }
     }
 }
