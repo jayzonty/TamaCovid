@@ -79,12 +79,6 @@ namespace TamaCovid
             {
                 button.onClick.AddListener(HandleButtonClicked);
             }
-
-            if (gameState != null)
-            {
-                gameState.OnFlagsChanged += FlagChangedHandler;
-                gameState.OnStatsChanged += StatsChangedHandler;
-            }
         }
 
         /// <summary>
@@ -96,12 +90,6 @@ namespace TamaCovid
             if (button != null)
             {
                 button.onClick.RemoveListener(HandleButtonClicked);
-            }
-
-            if (gameState != null)
-            {
-                gameState.OnFlagsChanged -= FlagChangedHandler;
-                gameState.OnStatsChanged -= StatsChangedHandler;
             }
         }
 
@@ -125,19 +113,16 @@ namespace TamaCovid
             }
         }
 
-        private void StatsChangedHandler(string statName, int oldValue, int newValue)
+        /// <summary>
+        /// Unity callback function that is called
+        /// per frame.
+        /// </summary>
+        private void Update()
         {
             if ((button != null) && (parserBehavior != null))
             {
-                button.interactable = parserBehavior.ParseConditions(actionData.enabledConditionString);
-            }
-        }
-
-        private void FlagChangedHandler(string flagName)
-        {
-            if ((button != null) && (parserBehavior != null))
-            {
-                button.interactable = parserBehavior.ParseConditions(actionData.enabledConditionString);
+                button.interactable = (mainGameBehavior.CurrentState == MainGameBehavior.State.ActivitiesSelection)
+                    && parserBehavior.ParseConditions(actionData.enabledConditionString);
             }
         }
 
